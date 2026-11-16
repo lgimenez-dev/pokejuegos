@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:PokeJuegos.Mobile.Controls"
+             x:Class="PokeJuegos.Mobile.Controls.SearchBox"
+             x:Name="Root"
+             x:DataType="controls:SearchBox">
+
+    <!--
+        Port of BaseSearch.vue: box with a light gray border, soft shadow and the search icon.
+        A sideways swipe raises SwipedAway (used to dismiss it on touch screens). The recognizers are
+        on the Entry too: on Android the text field takes the touches that start on it.
+    -->
+    <Border Style="{StaticResource SearchBorder}">
+        <Border.GestureRecognizers>
+            <SwipeGestureRecognizer Direction="Left" Swiped="OnSwiped" />
+            <SwipeGestureRecognizer Direction="Right" Swiped="OnSwiped" />
+        </Border.GestureRecognizers>
+        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="5">
+            <Image Source="search_icon.png"
+                   WidthRequest="18"
+                   HeightRequest="18"
+                   VerticalOptions="Center" />
+            <Entry x:Name="SearchEntry"
+                   Grid.Column="1"
+                   Text="{Binding Text, Source={x:Reference Root}, Mode=TwoWay}"
+                   Placeholder="{Binding Placeholder, Source={x:Reference Root}}"
+                   PlaceholderColor="{StaticResource MidGray}"
+                   FontSize="18"
+                   ReturnType="Search"
+                   ClearButtonVisibility="WhileEditing"
+                   IsSpellCheckEnabled="False"
+                   IsTextPredictionEnabled="False"
+                   VerticalOptions="Center">
+                <Entry.GestureRecognizers>
+                    <SwipeGestureRecognizer Direction="Left" Swiped="OnSwiped" />
+                    <SwipeGestureRecognizer Direction="Right" Swiped="OnSwiped" />
+                </Entry.GestureRecognizers>
+            </Entry>
+        </Grid>
+    </Border>
+
+</ContentView>

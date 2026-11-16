@@ -1,0 +1,12 @@
+@page
+@model IndexModel
+@inject IConfiguration Configuration
+@{
+    ViewData["Title"] = Configuration["App:Name"];
+}
+
+@if (Model.OAuthError is not null)
+{
+    <p class="status status-error">@Model.OAuthError</p>
+}
+<p>Activate your account and reset your password from the links we send you by email. Everything else happens in the app.</p>

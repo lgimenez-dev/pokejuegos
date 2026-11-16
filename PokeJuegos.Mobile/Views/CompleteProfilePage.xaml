@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:PokeJuegos.Mobile.ViewModels"
+             xmlns:controls="clr-namespace:PokeJuegos.Mobile.Controls"
+             x:Class="PokeJuegos.Mobile.Views.CompleteProfilePage"
+             x:DataType="vm:CompleteProfileViewModel"
+             SafeAreaEdges="All">
+
+    <!-- ScrollView so the fields stay reachable when the on-screen keyboard opens. -->
+    <ScrollView>
+        <!-- Same column as LoginPage/RegisterPage (LoginView.vue): 31.5rem wide, 3rem between blocks. -->
+        <VerticalStackLayout Padding="0,24"
+                             Spacing="30"
+                             WidthRequest="315"
+                             VerticalOptions="Center">
+
+            <VerticalStackLayout Spacing="8">
+                <Label Text="Complete your profile"
+                       Style="{StaticResource SubtitleLabel}"
+                       SemanticProperties.HeadingLevel="Level1" />
+                <Label Text="Choose a username to finish signing up."
+                       Style="{StaticResource BodyLabel}"
+                       HorizontalTextAlignment="Center" />
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Spacing="20">
+                <controls:FormEntry Text="{Binding Name}"
+                                    ErrorText="{Binding NameError}"
+                                    Placeholder="Name"
+                                    Keyboard="Text"
+                                    ReturnType="Next" />
+                <controls:FormEntry Text="{Binding Username}"
+                                    ErrorText="{Binding UsernameError}"
+                                    Placeholder="Username"
+                                    ReturnType="Done" />
+                <Label Text="{Binding ErrorMessage}"
+                       IsVisible="{Binding HasError}"
+                       Style="{StaticResource ErrorLabel}" />
+            </VerticalStackLayout>
+
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="15">
+                <Button Grid.Column="0"
+                        Text="Cancel"
+                        Style="{StaticResource OutlineButton}"
+                        HeightRequest="44"
+                        Padding="0"
+                        Command="{Binding CancelCommand}" />
+                <Button Grid.Column="1"
+                        Text="Continue"
+                        Style="{StaticResource PrimaryButton}"
+                        HeightRequest="44"
+                        Padding="0"
+                        Command="{Binding ContinueCommand}" />
+            </Grid>
+
+            <ActivityIndicator IsRunning="{Binding ContinueCommand.IsRunning}"
+                               IsVisible="{Binding ContinueCommand.IsRunning}"
+                               HeightRequest="32" />
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:PokeJuegos.Mobile.ViewModels"
+             xmlns:controls="clr-namespace:PokeJuegos.Mobile.Controls"
+             x:Class="PokeJuegos.Mobile.Views.LoginPage"
+             x:DataType="vm:LoginViewModel"
+             SafeAreaEdges="All">
+
+    <!-- ScrollView so the fields stay reachable when the on-screen keyboard opens. -->
+    <ScrollView>
+        <!-- Port of LoginView.vue: 31.5rem column, 3rem between blocks. -->
+        <VerticalStackLayout Padding="0,24"
+                             Spacing="30"
+                             WidthRequest="315"
+                             VerticalOptions="Center">
+
+            <Label Text="Log in to PokeJuegos"
+                   Style="{StaticResource SubtitleLabel}"
+                   SemanticProperties.HeadingLevel="Level1" />
+
+            <VerticalStackLayout Spacing="20">
+                <controls:FormEntry Text="{Binding Identifier}"
+                                    Placeholder="Username or email"
+                                    ReturnType="Next" />
+                <controls:FormEntry Text="{Binding Password}"
+                                    Placeholder="Password"
+                                    IsPassword="True"
+                                    ReturnType="Done" />
+                <Label Text="{Binding ErrorMessage}"
+                       IsVisible="{Binding HasError}"
+                       Style="{StaticResource ErrorLabel}" />
+                <!-- Not in LoginView.vue: password recovery (also lets Google accounts create a password). -->
+                <Label Text="Forgot your password?"
+                       Style="{StaticResource CaptionLabel}"
+                       TextColor="{StaticResource Primary}"
+                       TextDecorations="Underline"
+                       HorizontalOptions="Center">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding GoToForgotPasswordCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </VerticalStackLayout>
+
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="15">
+                <Button Grid.Column="0"
+                        Text="Register"
+                        Style="{StaticResource OutlineButton}"
+                        HeightRequest="44"
+                        Padding="0"
+                        Command="{Binding GoToRegisterCommand}" />
+                <Button Grid.Column="1"
+                        Text="Login"
+                        Style="{StaticResource PrimaryButton}"
+                        HeightRequest="44"
+                        Padding="0"
+                        Command="{Binding LoginCommand}" />
+            </Grid>
+
+            <!-- Not in LoginView.vue: Google sign-in (system browser; see IOAuthBrowser). -->
+            <Grid ColumnDefinitions="*,Auto,*" ColumnSpacing="12">
+                <BoxView Grid.Column="0" Style="{StaticResource Divider}" VerticalOptions="Center" />
+                <Label Grid.Column="1" Text="or" Style="{StaticResource CaptionLabel}" />
+                <BoxView Grid.Column="2" Style="{StaticResource Divider}" VerticalOptions="Center" />
+            </Grid>
+
+            <Button Text="Continue with Google"
+                    ImageSource="google_icon.png"
+                    ContentLayout="Left,10"
+                    Style="{StaticResource OutlineButton}"
+                    HeightRequest="44"
+                    Padding="0"
+                    Command="{Binding GoogleLoginCommand}" />
+
+            <ActivityIndicator IsRunning="{Binding LoginCommand.IsRunning}"
+                               IsVisible="{Binding LoginCommand.IsRunning}"
+                               HeightRequest="32" />
+
+            <HorizontalStackLayout IsVisible="{Binding GoogleLoginCommand.IsRunning}"
+                                   HorizontalOptions="Center"
+                                   Spacing="8">
+                <Label Text="Waiting for Google…" Style="{StaticResource CaptionLabel}" />
+                <Label Text="Cancel"
+                       Style="{StaticResource CaptionLabel}"
+                       TextColor="{StaticResource Primary}"
+                       TextDecorations="Underline">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding GoogleLoginCancelCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

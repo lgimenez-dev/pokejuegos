@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+    App icon foreground: the pokeball from Resources/Images/pokeball_icon.svg, in hex (Svg.Skia doesn't support oklch()).
+    MauiIcon scales it into the adaptive icon's safe zone.
+-->
+<svg width="456" height="456" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="100" cy="100" r="92" fill="#D01C29" stroke="#181611" stroke-width="6"></circle>
+    <path d="M8,100 A92,92 0 0,0 192,100 Z" fill="#F6F5F1" stroke="#181611" stroke-width="6"></path>
+    <rect x="8" y="92" width="184" height="16" fill="#181611"></rect>
+    <circle cx="100" cy="100" r="30" fill="#F6F5F1" stroke="#181611" stroke-width="6"></circle>
+    <circle cx="100" cy="100" r="14" fill="#FFFFFF" stroke="#181611" stroke-width="4"></circle>
+</svg>

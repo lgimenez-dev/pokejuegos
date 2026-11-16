@@ -1,0 +1,21 @@
+# Build outputs from the host (Windows obj/ folders break a Linux restore)
+**/bin/
+**/obj/
+
+# IDE and local files
+**/.vs/
+**/*.user
+.git/
+.claude/
+.env
+
+# Local secrets must never end up in an image
+**/appsettings.Development.json
+
+# Not needed to build the API or the web
+PokeJuegos.Mobile/
+referencia/
+screencap/
+docs/
+db/
+**/*.md

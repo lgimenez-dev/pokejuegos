@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:PokeJuegos.Mobile.Controls"
+             xmlns:models="clr-namespace:PokeJuegos.Mobile.Models"
+             x:Class="PokeJuegos.Mobile.Controls.PokemonCard"
+             x:Name="Root"
+             x:DataType="models:PokemonItem">
+
+    <!--
+        Port of the Pokédex BaseCard.vue: white rounded row with the raw name and the favorite star
+        (py 1rem, h 6rem, px 1.5rem, rounded 0.5rem, text 2.2rem). Its BindingContext is the row's PokemonItem.
+    -->
+    <Border Style="{StaticResource PokemonCardBorder}" Margin="0,10">
+        <Grid ColumnDefinitions="*,Auto">
+            <Label Text="{Binding Name}"
+                   FontSize="22"
+                   VerticalTextAlignment="Center">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SelectCommand, Source={x:Reference Root}, x:DataType=controls:PokemonCard}"
+                                          CommandParameter="{Binding .}" />
+                </Label.GestureRecognizers>
+            </Label>
+
+            <ImageButton Grid.Column="1"
+                         Source="star_inactive_icon.png"
+                         Command="{Binding ToggleFavoriteCommand, Source={x:Reference Root}, x:DataType=controls:PokemonCard}"
+                         CommandParameter="{Binding .}"
+                         WidthRequest="44"
+                         HeightRequest="44"
+                         VerticalOptions="Center"
+                         SemanticProperties.Description="Toggle favorite">
+                <ImageButton.Triggers>
+                    <DataTrigger TargetType="ImageButton" Binding="{Binding IsFavorite}" Value="True">
+                        <Setter Property="Source" Value="star_active_icon.png" />
+                    </DataTrigger>
+                </ImageButton.Triggers>
+            </ImageButton>
+        </Grid>
+    </Border>
+
+</ContentView>

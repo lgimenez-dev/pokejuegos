@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:PokeJuegos.Mobile.Controls"
+             x:Class="PokeJuegos.Mobile.Controls.FormEntry"
+             x:Name="Root"
+             x:DataType="controls:FormEntry">
+
+    <!-- Port of BaseInput.vue: pill-shaped white field with a light gray border. -->
+    <VerticalStackLayout Spacing="4">
+        <Border Style="{StaticResource InputBorder}">
+            <Border.Triggers>
+                <DataTrigger TargetType="Border"
+                             Binding="{Binding HasError, Source={x:Reference Root}}"
+                             Value="True">
+                    <Setter Property="Stroke" Value="{StaticResource PrimaryBrush}" />
+                </DataTrigger>
+            </Border.Triggers>
+            <Entry Text="{Binding Text, Source={x:Reference Root}, Mode=TwoWay}"
+                   Placeholder="{Binding Placeholder, Source={x:Reference Root}}"
+                   IsPassword="{Binding IsPassword, Source={x:Reference Root}}"
+                   Keyboard="{Binding Keyboard, Source={x:Reference Root}}"
+                   ReturnType="{Binding ReturnType, Source={x:Reference Root}}"
+                   IsSpellCheckEnabled="False"
+                   IsTextPredictionEnabled="False"
+                   VerticalOptions="Center" />
+        </Border>
+
+        <!-- Field-level validation message, aligned with the text inside the pill. -->
+        <Label Text="{Binding ErrorText, Source={x:Reference Root}}"
+               IsVisible="{Binding HasError, Source={x:Reference Root}}"
+               Style="{StaticResource ErrorLabel}"
+               HorizontalTextAlignment="Start"
+               Margin="20,0,0,0" />
+    </VerticalStackLayout>
+
+</ContentView>

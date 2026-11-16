@@ -1,0 +1,54 @@
+# PostgreSQL + API + Web. The MAUI app runs outside Docker and reaches the API at http://localhost:5224.
+# Secrets come from a git-ignored .env file next to this one (see docs/DOCKER.md).
+services:
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: pokejuegos
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+    ports:
+      # 5433 on the host, so it doesn't clash with a local PostgreSQL on 5432.
+      - "5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      # Run only the first time, when the data volume is empty.
+      - ./db/script.sql:/docker-entrypoint-initdb.d/01-script.sql:ro
+      - ./db/seed.sql:/docker-entrypoint-initdb.d/02-seed.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d pokejuegos"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build:
+      context: .
+      dockerfile: PokeJuegos.Api/Dockerfile
+    environment:
+      # Development keeps Swagger on (/swagger).
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__Default: "Host=db;Port=5432;Database=pokejuegos;Username=postgres;Password=${POSTGRES_PASSWORD:-postgres}"
+      Jwt__Secret: ${JWT_SECRET:?Set JWT_SECRET in .env (at least 32 characters)}
+      Google__ClientId: ${GOOGLE_CLIENT_ID:-}
+      Google__ClientSecret: ${GOOGLE_CLIENT_SECRET:-}
+    ports:
+      - "5224:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  web:
+    build:
+      context: .
+      dockerfile: PokeJuegos.Web/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      Api__BaseUrl: "http://api:8080/"
+    ports:
+      - "3000:8080"
+    depends_on:
+      - api
+
+volumes:
+  pgdata:

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:PokeJuegos.Mobile.Controls"
+             x:Class="PokeJuegos.Mobile.Controls.ModalView"
+             x:Name="Root"
+             x:DataType="controls:ModalView"
+             IsVisible="False">
+
+    <!--
+        Port of BaseModal.vue: dimmed backdrop (tap closes) and a white card with a centered title,
+        a close button and the page's content in the body. Drawn over the page instead of a
+        separate popup window, so the body binds to the page's ViewModel like any other view.
+    -->
+    <!--
+        Explicit ContentView.Content: the class is [ContentProperty(nameof(Body))], so without this the
+        Grid below would be assigned to Body, and BodyHost would end up containing itself (infinite loop).
+    -->
+    <ContentView.Content>
+        <Grid BackgroundColor="#80000000" Padding="16">
+            <Grid.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding CloseCommand, Source={x:Reference Root}}" />
+            </Grid.GestureRecognizers>
+
+            <Border Style="{StaticResource ModalCard}">
+                <!-- Swallows taps on the card so they don't reach the backdrop and close the modal. -->
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer />
+                </Border.GestureRecognizers>
+
+                <!-- Header 5rem: centered 2rem bold title, 2.4rem close icon 1.6rem from the right. -->
+                <!--
+                    Body row is Auto, not *: on Android a ScrollView in a * row takes all the height it is
+                    offered, which stretched the card to the bottom of the screen despite VerticalOptions=Center.
+                -->
+                <Grid RowDefinitions="50,Auto,Auto">
+                    <Label Text="{Binding Title, Source={x:Reference Root}}"
+                           FontFamily="LatoBold"
+                           FontSize="20"
+                           Margin="48,0"
+                           HorizontalTextAlignment="Center"
+                           VerticalTextAlignment="Center"
+                           SemanticProperties.HeadingLevel="Level2" />
+                    <!-- 24dp icon; the padding widens the touch area without moving it. -->
+                    <ImageButton Source="close_icon.png"
+                                 Command="{Binding CloseCommand, Source={x:Reference Root}}"
+                                 WidthRequest="40"
+                                 HeightRequest="40"
+                                 Padding="8"
+                                 Margin="0,0,8,0"
+                                 HorizontalOptions="End"
+                                 VerticalOptions="Center"
+                                 SemanticProperties.Description="Close" />
+                    <BoxView Grid.Row="1" Style="{StaticResource Divider}" />
+                    <ScrollView Grid.Row="2">
+                        <ContentView x:Name="BodyHost" Padding="20" />
+                    </ScrollView>
+                </Grid>
+            </Border>
+        </Grid>
+    </ContentView.Content>
+
+</ContentView>

@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:vm="clr-namespace:PokeJuegos.Mobile.ViewModels"
+             xmlns:models="clr-namespace:PokeJuegos.Mobile.Models"
+             xmlns:controls="clr-namespace:PokeJuegos.Mobile.Controls"
+             x:Class="PokeJuegos.Mobile.Views.RoulettePage"
+             x:DataType="vm:RouletteViewModel"
+             BackgroundColor="{StaticResource RouletteBackground}"
+             SafeAreaEdges="All">
+
+    <ContentPage.Resources>
+        <!-- .scoreValue: 8.4rem black. The white copies behind the gold one fake -webkit-text-stroke. -->
+        <Style x:Key="ScoreNumber" TargetType="Label">
+            <Setter Property="FontFamily" Value="LatoBlack" />
+            <Setter Property="FontSize" Value="84" />
+            <Setter Property="TextColor" Value="{StaticResource White}" />
+            <Setter Property="HorizontalTextAlignment" Value="Center" />
+        </Style>
+
+        <!-- TopScoresList.vue: monospace rows over dark gray. -->
+        <Style x:Key="ScoresBlock" TargetType="Border">
+            <Setter Property="BackgroundColor" Value="{StaticResource DarkGray}" />
+            <Setter Property="StrokeThickness" Value="0" />
+            <Setter Property="StrokeShape" Value="RoundRectangle 8" />
+            <Setter Property="Padding" Value="12" />
+        </Style>
+
+        <Style x:Key="ScoreRowLabel" TargetType="Label">
+            <Setter Property="FontFamily" Value="{OnPlatform Default=monospace, WinUI=Consolas}" />
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="TextColor" Value="{StaticResource MidWhite}" />
+        </Style>
+
+        <Style x:Key="ScorePointsLabel" TargetType="Label" BasedOn="{StaticResource ScoreRowLabel}">
+            <Setter Property="FontAttributes" Value="Bold" />
+            <Setter Property="TextColor" Value="{StaticResource Gold}" />
+            <Setter Property="HorizontalTextAlignment" Value="End" />
+        </Style>
+
+        <Style x:Key="RouletteButton" TargetType="Button" BasedOn="{StaticResource PrimaryButton}">
+            <Setter Property="HeightRequest" Value="46" />
+            <Setter Property="CornerRadius" Value="23" />
+        </Style>
+    </ContentPage.Resources>
+
+    <!-- Port of RouletteView.vue. Everything is layered over the burst, which fills the page. -->
+    <Grid x:Name="Stage">
+
+        <controls:BurstBackground />
+
+        <!--
+            .silhouetteWrapper: 20rem square in the middle, moved up like margin-top: -8vh (TranslationY, set
+            in the code-behind with the same ratio the burst uses, so both share the center).
+            AbsoluteLayout so the result badge can sit outside it without being squeezed to its width.
+        -->
+        <AbsoluteLayout x:Name="SilhouetteWrapper"
+                        WidthRequest="200"
+                        HeightRequest="200"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center">
+            <!-- Silhouette (filter: brightness(0)) until the round is decided, then the real sprite. -->
+            <Image AbsoluteLayout.LayoutBounds="0,0,200,200"
+                   Source="{Binding CurrentPokemon.Sprite}"
+                   IsVisible="{Binding IsSilhouette}"
+                   Aspect="AspectFit"
+                   SemanticProperties.Description="Pokémon silhouette">
+                <Image.Behaviors>
+                    <toolkit:IconTintColorBehavior TintColor="{StaticResource Black}" />
+                </Image.Behaviors>
+            </Image>
+            <Image AbsoluteLayout.LayoutBounds="0,0,200,200"
+                   Source="{Binding CurrentPokemon.Sprite}"
+                   IsVisible="{Binding IsRevealed}"
+                   Aspect="AspectFit"
+                   SemanticProperties.Description="{Binding CurrentPokemon.Title}" />
+            <Label AbsoluteLayout.LayoutBounds="0,0,200,200"
+                   Text="?"
+                   FontFamily="LatoBold"
+                   FontSize="60"
+                   TextColor="{StaticResource LightGray}"
+                   HorizontalTextAlignment="Center"
+                   VerticalTextAlignment="Center">
+                <Label.Triggers>
+                    <DataTrigger TargetType="Label" Binding="{Binding HasPokemon}" Value="True">
+                        <Setter Property="IsVisible" Value="False" />
+                    </DataTrigger>
+                </Label.Triggers>
+            </Label>
+
+            <!-- .resultBadge: top 8rem, left -8rem, rotate(-55deg) around its top-left corner. -->
+            <Border AbsoluteLayout.LayoutBounds="-80,80,AutoSize,AutoSize"
+                    IsVisible="{Binding IsResultBadgeVisible}"
+                    AnchorX="0"
+                    AnchorY="0"
+                    Rotation="-55"
+                    BackgroundColor="{StaticResource White}"
+                    Stroke="{StaticResource DarkGray}"
+                    StrokeThickness="4"
+                    StrokeShape="RoundRectangle 8"
+                    Padding="12,6">
+                <HorizontalStackLayout Spacing="6">
+                    <Image Source="close_icon.png" WidthRequest="30" HeightRequest="30" VerticalOptions="Center">
+                        <Image.Triggers>
+                            <DataTrigger TargetType="Image" Binding="{Binding IsCorrect}" Value="True">
+                                <Setter Property="Source" Value="check_icon.png" />
+                            </DataTrigger>
+                        </Image.Triggers>
+                    </Image>
+                    <Label Text="{Binding ResultPokemon.Title}"
+                           FontFamily="LatoBold"
+                           FontSize="24"
+                           VerticalOptions="Center" />
+                </HorizontalStackLayout>
+            </Border>
+        </AbsoluteLayout>
+
+        <!-- .backIcon: 3.6rem, top/left 2.5rem, white with a drop shadow. Asks before leaving. -->
+        <ImageButton Source="left_icon.png"
+                     Command="{Binding RequestLeaveCommand}"
+                     WidthRequest="36"
+                     HeightRequest="36"
+                     Margin="25,25,0,0"
+                     HorizontalOptions="Start"
+                     VerticalOptions="Start"
+                     BackgroundColor="Transparent"
+                     SemanticProperties.Description="Go back">
+            <ImageButton.Behaviors>
+                <toolkit:IconTintColorBehavior TintColor="{StaticResource White}" />
+            </ImageButton.Behaviors>
+            <ImageButton.Shadow>
+                <Shadow Brush="{StaticResource BlackBrush}" Offset="0,2" Radius="3" Opacity="0.5" />
+            </ImageButton.Shadow>
+        </ImageButton>
+
+        <!-- .topScoreIcon: 4.6rem, top/right 2rem, only after a game over. -->
+        <ImageButton Source="favorite_icon.png"
+                     Command="{Binding OpenTopScoresCommand}"
+                     IsVisible="{Binding IsGameOver}"
+                     WidthRequest="46"
+                     HeightRequest="46"
+                     Margin="0,20,20,0"
+                     HorizontalOptions="End"
+                     VerticalOptions="Start"
+                     BackgroundColor="Transparent"
+                     SemanticProperties.Description="Show top scorers" />
+
+        <!-- .topCard: "SCORE" over the big number, top 2rem. -->
+        <VerticalStackLayout Margin="0,20,0,0"
+                             Spacing="2"
+                             HorizontalOptions="Center"
+                             VerticalOptions="Start"
+                             InputTransparent="True">
+            <!-- 1.4rem, weight 900, letter-spacing 0.3em (CharacterSpacing is in 1/16 em). -->
+            <Label Text="SCORE"
+                   FontFamily="LatoBlack"
+                   FontSize="14"
+                   CharacterSpacing="4.8"
+                   TextColor="{StaticResource White}"
+                   HorizontalOptions="Center">
+                <Label.Shadow>
+                    <Shadow Brush="{StaticResource BlackBrush}" Offset="0,2" Radius="3" Opacity="0.5" />
+                </Label.Shadow>
+            </Label>
+            <Grid HorizontalOptions="Center">
+                <Grid.Shadow>
+                    <Shadow Brush="{StaticResource BlackBrush}" Offset="0,4" Radius="0" Opacity="0.35" />
+                </Grid.Shadow>
+                <Label Style="{StaticResource ScoreNumber}" Text="{Binding DisplayScore}" TranslationX="-2" TranslationY="-2" />
+                <Label Style="{StaticResource ScoreNumber}" Text="{Binding DisplayScore}" TranslationX="0" TranslationY="-2" />
+                <Label Style="{StaticResource ScoreNumber}" Text="{Binding DisplayScore}" TranslationX="2" TranslationY="-2" />
+                <Label Style="{StaticResource ScoreNumber}" Text="{Binding DisplayScore}" TranslationX="-2" TranslationY="0" />
+                <Label Style="{StaticResource ScoreNumber}" Text="{Binding DisplayScore}" TranslationX="2" TranslationY="0" />
+                <Label Style="{StaticResource ScoreNumber}" Text="{Binding DisplayScore}" TranslationX="-2" TranslationY="2" />
+                <Label Style="{StaticResource ScoreNumber}" Text="{Binding DisplayScore}" TranslationX="0" TranslationY="2" />
+                <Label Style="{StaticResource ScoreNumber}" Text="{Binding DisplayScore}" TranslationX="2" TranslationY="2" />
+                <Label Style="{StaticResource ScoreNumber}" Text="{Binding DisplayScore}" TextColor="{StaticResource Gold}" />
+            </Grid>
+        </VerticalStackLayout>
+
+        <!-- .bottomArea: 31.5rem column, bottom 2rem, 1rem gap. -->
+        <Grid Padding="20,0,20,20" VerticalOptions="End">
+            <VerticalStackLayout Spacing="10" MaximumWidthRequest="315">
+
+                <!-- .gameOverBanner: 3.2rem, Press Start 2P 1.6rem, letter-spacing 0.2rem; pulses (code-behind). -->
+                <Label x:Name="GameOverBanner"
+                       Text="GAME OVER"
+                       IsVisible="{Binding IsGameOver}"
+                       FontFamily="PressStart2P"
+                       FontSize="16"
+                       CharacterSpacing="2"
+                       TextColor="#E8D54A"
+                       HeightRequest="32"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center">
+                    <Label.Shadow>
+                        <Shadow Brush="#1A1A1A" Offset="2,2" Radius="0" Opacity="1" />
+                    </Label.Shadow>
+                </Label>
+
+                <controls:FuseBar x:Name="Fuse" IsVisible="{Binding IsFuseVisible}" />
+
+                <!-- .bottomCard: white, rounded 1.2rem, padding 2rem, shadow 0 4 16 black/20%. Shakes on a miss. -->
+                <Border x:Name="BottomCard" Style="{StaticResource ModalCard}" Padding="20">
+                    <VerticalStackLayout Spacing="10">
+                        <controls:OptionPicker ItemsSource="{Binding GuessOptions}"
+                                               SelectedItem="{Binding SelectedGuess}"
+                                               ItemDisplayBinding="{Binding Title, x:DataType=models:RoulettePokemon}"
+                                               Placeholder="Choose a Pokémon"
+                                               IsEnabled="{Binding IsPickerEnabled}" />
+
+                        <!-- Bottom card slot (4.6rem): Spin, Choose or Reset depending on the round. -->
+                        <Grid HeightRequest="46">
+                            <Button Text="Spin"
+                                    Style="{StaticResource RouletteButton}"
+                                    Command="{Binding SpinCommand}"
+                                    IsVisible="{Binding IsSpinButtonVisible}"
+                                    IsEnabled="{Binding IsSpinEnabled}" />
+                            <Button Text="Choose"
+                                    Style="{StaticResource RouletteButton}"
+                                    Command="{Binding ChooseCommand}"
+                                    IsVisible="{Binding IsChooseButtonVisible}"
+                                    IsEnabled="{Binding CanChoose}" />
+                            <Button Text="Reset"
+                                    Style="{StaticResource OutlineButton}"
+                                    HeightRequest="46"
+                                    CornerRadius="23"
+                                    ImageSource="reset_icon.png"
+                                    ContentLayout="Left,10"
+                                    Command="{Binding ResetCommand}"
+                                    IsVisible="{Binding IsResetButtonVisible}" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+            </VerticalStackLayout>
+        </Grid>
+
+        <!-- Correct-guess confetti, over the game but under the modals. -->
+        <controls:ConfettiView x:Name="Confetti" />
+
+        <!-- TopScoresModal.vue, drawn over everything. -->
+        <controls:ModalView Title="Top 10 Players"
+                            IsOpen="{Binding IsTopScoresOpen}"
+                            CloseCommand="{Binding CloseTopScoresCommand}">
+            <VerticalStackLayout>
+                <Border Style="{StaticResource ScoresBlock}">
+                    <VerticalStackLayout BindableLayout.ItemsSource="{Binding TopScores}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="models:TopScoreRow">
+                                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="2">
+                                    <Label Text="{Binding Player}"
+                                           Style="{StaticResource ScoreRowLabel}"
+                                           LineBreakMode="TailTruncation" />
+                                    <Label Grid.Column="1"
+                                           Text="{Binding Points}"
+                                           Style="{StaticResource ScorePointsLabel}" />
+                                </Grid>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- .lastScore: the player's own rank, even outside the top. -->
+                <VerticalStackLayout Spacing="6" Margin="0,12,0,0" IsVisible="{Binding HasLastScore}">
+                    <Label Text="LAST SCORE"
+                           FontFamily="LatoBold"
+                           FontSize="13"
+                           CharacterSpacing="0.8"
+                           TextColor="{StaticResource MidGray}" />
+                    <Border Style="{StaticResource ScoresBlock}">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="{Binding LastScoreRank}"
+                                   Style="{StaticResource ScoreRowLabel}"
+                                   FontAttributes="Bold" />
+                            <Label Grid.Column="1"
+                                   Text="{Binding LastScorePoints}"
+                                   Style="{StaticResource ScorePointsLabel}" />
+                        </Grid>
+                    </Border>
+                </VerticalStackLayout>
+
+                <Button Text="Upload my score"
+                        Style="{StaticResource RouletteButton}"
+                        Margin="0,12,0,0"
+                        Command="{Binding UploadCommand}"
+                        IsEnabled="{Binding IsUploadEnabled}" />
+            </VerticalStackLayout>
+        </controls:ModalView>
+
+        <controls:ConfirmModalView Title="Leave game?"
+                                   Message="If you leave now you'll lose your current progress."
+                                   IsOpen="{Binding IsLeaveConfirmOpen}"
+                                   ConfirmCommand="{Binding ConfirmLeaveCommand}"
+                                   CancelCommand="{Binding CancelLeaveCommand}" />
+    </Grid>
+
+</ContentPage>

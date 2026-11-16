@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?xaml-comp compile="true" ?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <!-- Brand palette, ported as-is from poke-juegos-front/src/style.css (via the RN global.css). -->
+    <Color x:Key="Primary">#F22539</Color>
+    <Color x:Key="Secondary">#C00E20</Color>
+    <Color x:Key="HoverPrimary">#C00E20</Color>
+    <Color x:Key="HoverSecondary">#A70C1C</Color>
+    <Color x:Key="Success">#2E9E44</Color>
+    <Color x:Key="Gold">#ECA539</Color>
+    <Color x:Key="DarkGray">#353535</Color>
+    <Color x:Key="MidGray">#5E5E5E</Color>
+    <Color x:Key="LightGray">#BFBFBF</Color>
+    <Color x:Key="DarkWhite">#E8E8E8</Color>
+    <Color x:Key="MidWhite">#F5F5F5</Color>
+    <Color x:Key="LightWhite">#F9F9F9</Color>
+    <Color x:Key="White">#FFFFFF</Color>
+    <Color x:Key="Black">#000000</Color>
+
+    <!-- Roulette screen background. -->
+    <Color x:Key="RouletteBackground">#8C3A3A</Color>
+
+    <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource Primary}" />
+    <SolidColorBrush x:Key="LightGrayBrush" Color="{StaticResource LightGray}" />
+    <SolidColorBrush x:Key="WhiteBrush" Color="{StaticResource White}" />
+    <SolidColorBrush x:Key="BlackBrush" Color="{StaticResource Black}" />
+
+</ResourceDictionary>

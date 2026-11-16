@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	Android blocks cleartext HTTP by default. The API runs on http://localhost:5224 during development,
+	reached from the emulator through "adb reverse tcp:5224 tcp:5224": allow HTTP for localhost only.
+-->
+<network-security-config>
+	<domain-config cleartextTrafficPermitted="true">
+		<domain includeSubdomains="false">localhost</domain>
+	</domain-config>
+</network-security-config>

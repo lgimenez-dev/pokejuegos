@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?xaml-comp compile="true" ?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <!--
+        Text sizes follow the Tailwind scale the RN screens used
+        (text-sm 14, text-lg 18, text-xl 20, text-2xl 24, text-3xl 30).
+    -->
+
+    <!-- Implicit styles -->
+
+    <Style TargetType="Page" ApplyToDerivedTypes="True">
+        <Setter Property="BackgroundColor" Value="{StaticResource MidWhite}" />
+        <Setter Property="Padding" Value="0" />
+    </Style>
+
+    <Style TargetType="Shell" ApplyToDerivedTypes="True">
+        <Setter Property="Shell.BackgroundColor" Value="{StaticResource MidWhite}" />
+        <Setter Property="Shell.NavBarIsVisible" Value="False" />
+        <Setter Property="Shell.FlyoutBehavior" Value="Disabled" />
+    </Style>
+
+    <Style TargetType="Label">
+        <Setter Property="TextColor" Value="{StaticResource DarkGray}" />
+        <Setter Property="FontFamily" Value="LatoRegular" />
+        <Setter Property="FontSize" Value="16" />
+    </Style>
+
+    <Style TargetType="Entry">
+        <Setter Property="TextColor" Value="{StaticResource DarkGray}" />
+        <Setter Property="PlaceholderColor" Value="{StaticResource LightGray}" />
+        <Setter Property="FontFamily" Value="LatoRegular" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="BackgroundColor" Value="Transparent" />
+    </Style>
+
+    <Style TargetType="Picker">
+        <Setter Property="TextColor" Value="{StaticResource DarkGray}" />
+        <Setter Property="FontFamily" Value="LatoRegular" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="BackgroundColor" Value="Transparent" />
+    </Style>
+
+    <Style TargetType="ActivityIndicator">
+        <Setter Property="Color" Value="{StaticResource Primary}" />
+    </Style>
+
+    <!-- Text -->
+
+    <Style x:Key="TitleLabel" TargetType="Label">
+        <Setter Property="FontFamily" Value="LatoBold" />
+        <Setter Property="FontSize" Value="30" />
+        <Setter Property="HorizontalTextAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="SubtitleLabel" TargetType="Label">
+        <Setter Property="FontFamily" Value="LatoBold" />
+        <Setter Property="FontSize" Value="24" />
+        <Setter Property="HorizontalTextAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="BodyLabel" TargetType="Label">
+        <Setter Property="TextColor" Value="{StaticResource MidGray}" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="HorizontalTextAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="CaptionLabel" TargetType="Label">
+        <Setter Property="TextColor" Value="{StaticResource LightGray}" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="HorizontalTextAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="ErrorLabel" TargetType="Label">
+        <Setter Property="TextColor" Value="{StaticResource Secondary}" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="HorizontalTextAlignment" Value="Center" />
+    </Style>
+
+    <!--
+        Buttons: port of BaseButton (rounded-full pill, h-12, text-lg medium).
+        Disabled buttons render at 50% opacity, like the RN "dimmed" prop.
+    -->
+
+    <Style x:Key="BaseButton" TargetType="Button">
+        <Setter Property="HeightRequest" Value="48" />
+        <Setter Property="CornerRadius" Value="24" />
+        <Setter Property="Padding" Value="32,0" />
+        <Setter Property="FontFamily" Value="LatoBold" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="BorderWidth" Value="0" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal">
+                        <VisualState.Setters>
+                            <Setter Property="Opacity" Value="1" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="Opacity" Value="0.5" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="PointerOver" />
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+
+    <Style x:Key="PrimaryButton" TargetType="Button" BasedOn="{StaticResource BaseButton}">
+        <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
+        <Setter Property="TextColor" Value="{StaticResource White}" />
+    </Style>
+
+    <Style x:Key="SecondaryButton" TargetType="Button" BasedOn="{StaticResource BaseButton}">
+        <Setter Property="BackgroundColor" Value="{StaticResource Secondary}" />
+        <Setter Property="TextColor" Value="{StaticResource White}" />
+    </Style>
+
+    <Style x:Key="TertiaryButton" TargetType="Button" BasedOn="{StaticResource BaseButton}">
+        <Setter Property="BackgroundColor" Value="{StaticResource LightGray}" />
+        <Setter Property="TextColor" Value="{StaticResource White}" />
+    </Style>
+
+    <Style x:Key="OutlineButton" TargetType="Button" BasedOn="{StaticResource BaseButton}">
+        <Setter Property="BackgroundColor" Value="{StaticResource White}" />
+        <Setter Property="TextColor" Value="{StaticResource MidGray}" />
+        <Setter Property="BorderColor" Value="{StaticResource LightGray}" />
+        <Setter Property="BorderWidth" Value="1" />
+    </Style>
+
+    <!-- Inputs: port of BaseInput.vue (rounded-full, border lightgray, white, px-6 py-3). -->
+
+    <Style x:Key="InputBorder" TargetType="Border">
+        <Setter Property="BackgroundColor" Value="{StaticResource White}" />
+        <Setter Property="Stroke" Value="{StaticResource LightGrayBrush}" />
+        <Setter Property="StrokeThickness" Value="1" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 24" />
+        <Setter Property="HeightRequest" Value="52" />
+        <Setter Property="Padding" Value="20,0" />
+    </Style>
+
+    <!-- Select: port of BaseSelect.vue (rounded-full, border lightgray, white; fills the roulette's 5.4rem slot). -->
+
+    <Style x:Key="SelectBorder" TargetType="Border">
+        <Setter Property="BackgroundColor" Value="{StaticResource White}" />
+        <Setter Property="Stroke" Value="{StaticResource LightGrayBrush}" />
+        <Setter Property="StrokeThickness" Value="1" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 27" />
+        <Setter Property="HeightRequest" Value="54" />
+        <Setter Property="Padding" Value="0" />
+    </Style>
+
+    <!-- Search: port of BaseSearch.vue (rounded 5px, lightgray border, shadow 0 2 10 lightgray). -->
+
+    <!-- No fill: the web input is transparent over the page background. h 5rem, icon ml/gap 0.5rem. -->
+    <Style x:Key="SearchBorder" TargetType="Border">
+        <Setter Property="BackgroundColor" Value="{StaticResource MidWhite}" />
+        <Setter Property="Stroke" Value="{StaticResource LightGrayBrush}" />
+        <Setter Property="StrokeThickness" Value="1" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 5" />
+        <Setter Property="HeightRequest" Value="50" />
+        <Setter Property="Padding" Value="8,0" />
+        <Setter Property="Shadow">
+            <Shadow Brush="{StaticResource LightGrayBrush}" Offset="0,2" Radius="10" Opacity="0.6" />
+        </Setter>
+    </Style>
+
+    <!-- Pokédex: content column is 31.5rem wide, like containerPokemonView on the web. -->
+
+    <x:Double x:Key="PokedexContentWidth">315</x:Double>
+
+    <Style x:Key="PokemonCardBorder" TargetType="Border">
+        <Setter Property="BackgroundColor" Value="{StaticResource White}" />
+        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 5" />
+        <Setter Property="HeightRequest" Value="60" />
+        <Setter Property="Padding" Value="15,0" />
+    </Style>
+
+    <!--
+        All/Favorites toggle. Not based on BaseButton: its Disabled/Normal visual states would fight
+        the DataTrigger that dims the unselected tab (port of BaseButton isSelected + dimmed).
+    -->
+    <Style x:Key="FilterButton" TargetType="Button">
+        <Setter Property="HeightRequest" Value="46" />
+        <Setter Property="CornerRadius" Value="23" />
+        <Setter Property="Padding" Value="16,0" />
+        <Setter Property="FontFamily" Value="LatoBold" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="BorderWidth" Value="0" />
+        <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
+        <Setter Property="TextColor" Value="{StaticResource White}" />
+        <Setter Property="ContentLayout" Value="Left,8" />
+    </Style>
+
+    <!-- Top edge of the Pokédex footer (box-shadow 0 -1 8 lightgray on the web). -->
+    <Style x:Key="FooterShadow" TargetType="BoxView">
+        <Setter Property="HeightRequest" Value="1" />
+        <Setter Property="Color" Value="{StaticResource LightGray}" />
+        <Setter Property="Shadow">
+            <Shadow Brush="{StaticResource LightGrayBrush}" Offset="0,-1" Radius="8" Opacity="0.8" />
+        </Setter>
+    </Style>
+
+    <!-- Detail modal: sprite over the landscape background. -->
+    <Style x:Key="SpriteStage" TargetType="Border">
+        <Setter Property="BackgroundColor" Value="{StaticResource MidWhite}" />
+        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 5" />
+        <Setter Property="HeightRequest" Value="180" />
+    </Style>
+
+    <!-- rowInfo: h 4.4rem, midgray, bottom border darkwhite (the Divider under each row). -->
+    <Style x:Key="DetailRowLabel" TargetType="Label">
+        <Setter Property="TextColor" Value="{StaticResource MidGray}" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="HeightRequest" Value="44" />
+        <Setter Property="VerticalTextAlignment" Value="Center" />
+    </Style>
+
+    <!-- Modal: port of BaseModal.vue (w 31.5rem, rounded 1.2rem, shadow 0 4 16 black/20%). -->
+
+    <Style x:Key="ModalCard" TargetType="Border">
+        <Setter Property="BackgroundColor" Value="{StaticResource White}" />
+        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 12" />
+        <Setter Property="MaximumWidthRequest" Value="315" />
+        <Setter Property="VerticalOptions" Value="Center" />
+        <Setter Property="Shadow">
+            <Shadow Brush="{StaticResource BlackBrush}" Offset="0,4" Radius="16" Opacity="0.2" />
+        </Setter>
+    </Style>
+
+    <Style x:Key="Divider" TargetType="BoxView">
+        <Setter Property="HeightRequest" Value="1" />
+        <Setter Property="Color" Value="{StaticResource DarkWhite}" />
+    </Style>
+
+</ResourceDictionary>

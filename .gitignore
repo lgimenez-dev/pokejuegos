@@ -1,0 +1,59 @@
+# Build outputs
+bin/
+obj/
+[Dd]ebug/
+[Rr]elease/
+*.apk
+*.aab
+*.msix
+
+# IDE / user-specific files (includes PokeJuegos.slnLaunch.user and *.csproj.user)
+*.user
+*.suo
+*.userprefs
+.vs/
+.vscode/
+.idea/
+
+# Secrets and local config.
+# appsettings.json is committed with placeholders; real values go in appsettings.Development.json
+# or environment variables (see README).
+appsettings.Development.json
+appsettings.Production.json
+appsettings.*.local.json
+**/secrets.json
+*.keystore
+*.jks
+*-pass.txt
+.env
+
+# Logs
+*.log
+logs/
+
+# NuGet
+*.nupkg
+.nuget/
+
+# Python (sprite/data fetch scripts)
+__pycache__/
+*.pyc
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Local working notes and scratch files (not part of the published project)
+referencia/
+BACKLOG.md
+FIX_FIRMA.md
+PROJECT_POKEJUEGOS.md
+mecha_animacion.md
+db/query_tests.sql
+db/*.local.sql
+docker-compose.local.yml
+/*.png
+PokeJuegos.Mobile/*.png
+PokeJuegos.Mobile/ultima_sesion.txt
+/PokeJuegos.Mobile.csproj

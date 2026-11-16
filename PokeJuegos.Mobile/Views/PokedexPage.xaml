@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:vm="clr-namespace:PokeJuegos.Mobile.ViewModels"
+             xmlns:models="clr-namespace:PokeJuegos.Mobile.Models"
+             xmlns:controls="clr-namespace:PokeJuegos.Mobile.Controls"
+             x:Class="PokeJuegos.Mobile.Views.PokedexPage"
+             x:DataType="vm:PokedexViewModel"
+             SafeAreaEdges="All">
+
+    <!--
+        Port of PokedexView.vue: search header, list, all/favorites footer and the detail modal.
+        Header, list and footer buttons share a centered 31.5rem (315dp) column, like containerPokemonView.
+    -->
+    <Grid RowDefinitions="Auto,*,Auto">
+
+        <!--
+            Header: back arrow on the left and a magnifier on the right. The magnifier expands the search
+            field over the whole header (same width as the cards); it slides away on a sideways swipe,
+            Escape (Windows) or the back button (Android). The animations live in the code-behind.
+        -->
+        <Grid Padding="16,24,16,0">
+            <Grid HeightRequest="50" MaximumWidthRequest="{StaticResource PokedexContentWidth}">
+                <Grid x:Name="HeaderButtons" ColumnDefinitions="Auto,*,Auto">
+                    <ImageButton Source="left_icon.png"
+                                 Command="{Binding GoBackCommand}"
+                                 WidthRequest="44"
+                                 HeightRequest="44"
+                                 Padding="8"
+                                 VerticalOptions="Center"
+                                 SemanticProperties.Description="Go back">
+                        <ImageButton.Behaviors>
+                            <toolkit:IconTintColorBehavior TintColor="{StaticResource MidGray}" />
+                        </ImageButton.Behaviors>
+                    </ImageButton>
+                    <ImageButton Grid.Column="2"
+                                 Source="search_icon.png"
+                                 Command="{Binding OpenSearchCommand}"
+                                 WidthRequest="44"
+                                 HeightRequest="44"
+                                 Padding="12"
+                                 VerticalOptions="Center"
+                                 SemanticProperties.Description="Search">
+                        <ImageButton.Behaviors>
+                            <toolkit:IconTintColorBehavior TintColor="{StaticResource MidGray}" />
+                        </ImageButton.Behaviors>
+                    </ImageButton>
+                </Grid>
+
+                <controls:SearchBox x:Name="SearchPanel"
+                                    Text="{Binding SearchText}"
+                                    IsVisible="False"
+                                    SwipedAway="OnSearchSwipedAway" />
+            </Grid>
+        </Grid>
+
+        <!-- Content: list or error (only one is visible at a time; nothing while the local list loads). 10 + card margin 10 = 2rem gap. -->
+        <Grid Grid.Row="1" Padding="16,10,16,0">
+            <Grid MaximumWidthRequest="{StaticResource PokedexContentWidth}">
+                <CollectionView ItemsSource="{Binding VisiblePokemon}"
+                                IsVisible="{Binding IsListVisible}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:PokemonItem">
+                            <controls:PokemonCard
+                                SelectCommand="{Binding SelectPokemonCommand, Source={RelativeSource AncestorType={x:Type vm:PokedexViewModel}}, x:DataType=vm:PokedexViewModel}"
+                                ToggleFavoriteCommand="{Binding ToggleFavoriteCommand, Source={RelativeSource AncestorType={x:Type vm:PokedexViewModel}}, x:DataType=vm:PokedexViewModel}" />
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                    <CollectionView.EmptyView>
+                        <Label Text="No favorites yet. Tap the star on any Pokémon to add it here."
+                               Style="{StaticResource BodyLabel}"
+                               Margin="0,48" />
+                    </CollectionView.EmptyView>
+                    <CollectionView.Footer>
+                        <BoxView HeightRequest="10" Color="Transparent" />
+                    </CollectionView.Footer>
+                </CollectionView>
+
+                <controls:ErrorView IsVisible="{Binding HasError}"
+                                    ErrorMessage="{Binding ErrorMessage}"
+                                    BackToHomeCommand="{Binding RecoverCommand}"
+                                    VerticalOptions="Start" />
+            </Grid>
+        </Grid>
+
+        <!-- Footer (h 8rem): all / favorites. Selected tab in solid primary; the other one gray and dimmed. -->
+        <Grid Grid.Row="2" RowDefinitions="Auto,80" BackgroundColor="{StaticResource MidWhite}">
+            <BoxView Style="{StaticResource FooterShadow}" />
+            <Grid Grid.Row="1" Padding="16,0">
+                <Grid ColumnDefinitions="*,*"
+                      ColumnSpacing="10"
+                      VerticalOptions="Center"
+                      MaximumWidthRequest="{StaticResource PokedexContentWidth}">
+                    <Button Text="All"
+                            ImageSource="list_icon.png"
+                            Style="{StaticResource FilterButton}"
+                            Command="{Binding ShowAllCommand}">
+                        <Button.Triggers>
+                            <DataTrigger TargetType="Button" Binding="{Binding IsAllSelected}" Value="False">
+                                <Setter Property="BackgroundColor" Value="{StaticResource LightGray}" />
+                                <Setter Property="Opacity" Value="0.5" />
+                            </DataTrigger>
+                        </Button.Triggers>
+                    </Button>
+                    <Button Grid.Column="1"
+                            Text="Favorites"
+                            ImageSource="favs_icon.png"
+                            Style="{StaticResource FilterButton}"
+                            Command="{Binding ShowFavoritesCommand}">
+                        <Button.Triggers>
+                            <DataTrigger TargetType="Button" Binding="{Binding ShowFavoritesOnly}" Value="False">
+                                <Setter Property="BackgroundColor" Value="{StaticResource LightGray}" />
+                                <Setter Property="Opacity" Value="0.5" />
+                            </DataTrigger>
+                        </Button.Triggers>
+                    </Button>
+                </Grid>
+            </Grid>
+        </Grid>
+
+        <!-- Detail modal (port of PokemonDetailModal.vue), drawn over everything -->
+        <controls:ModalView Grid.RowSpan="3"
+                            Title="{Binding SelectedPokemon.Title}"
+                            IsOpen="{Binding IsDetailOpen}"
+                            CloseCommand="{Binding CloseDetailCommand}">
+            <VerticalStackLayout>
+                <!-- containerPokemonImg: 18rem sprite over the landscape, rounded 0.5rem. -->
+                <Border Style="{StaticResource SpriteStage}">
+                    <Grid>
+                        <Image Source="bg_pokedex_screen.png" Aspect="AspectFill" />
+                        <Image Source="{Binding SelectedPokemon.Sprite}"
+                               WidthRequest="180"
+                               HeightRequest="180"
+                               Aspect="AspectFit"
+                               SemanticProperties.Description="{Binding SelectedPokemon.Title}" />
+                    </Grid>
+                </Border>
+
+                <!-- containerInfo: mt 1.2rem, three 4.4rem rows with a bottom border each. -->
+                <VerticalStackLayout Margin="0,12,0,0">
+                    <Label Style="{StaticResource DetailRowLabel}">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Weight: " FontFamily="LatoBold" />
+                                <Span Text="{Binding SelectedDetail.Weight}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <BoxView Style="{StaticResource Divider}" />
+                    <Label Style="{StaticResource DetailRowLabel}">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Height: " FontFamily="LatoBold" />
+                                <Span Text="{Binding SelectedDetail.Height}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <BoxView Style="{StaticResource Divider}" />
+                    <Label Style="{StaticResource DetailRowLabel}">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Types: " FontFamily="LatoBold" />
+                                <Span Text="{Binding SelectedDetail.Types}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <BoxView Style="{StaticResource Divider}" />
+                </VerticalStackLayout>
+
+                <!-- containerButtons: h 4.4rem, mt 2rem; star 4.4rem, ml 1.2rem. -->
+                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12" HeightRequest="44" Margin="0,20,0,0">
+                    <Button Text="Share to my friends"
+                            Style="{StaticResource PrimaryButton}"
+                            FontFamily="LatoRegular"
+                            HeightRequest="44"
+                            CornerRadius="22"
+                            Padding="20,0"
+                            Command="{Binding ShareCommand}" />
+                    <ImageButton Grid.Column="1"
+                                 Source="star_inactive_icon.png"
+                                 Command="{Binding ToggleFavoriteCommand}"
+                                 CommandParameter="{Binding SelectedPokemon}"
+                                 WidthRequest="44"
+                                 HeightRequest="44"
+                                 SemanticProperties.Description="Toggle favorite">
+                        <ImageButton.Triggers>
+                            <DataTrigger TargetType="ImageButton" Binding="{Binding SelectedPokemon.IsFavorite}" Value="True">
+                                <Setter Property="Source" Value="star_active_icon.png" />
+                            </DataTrigger>
+                        </ImageButton.Triggers>
+                    </ImageButton>
+                </Grid>
+            </VerticalStackLayout>
+        </controls:ModalView>
+    </Grid>
+
+</ContentPage>

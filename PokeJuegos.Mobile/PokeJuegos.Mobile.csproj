@@ -1,0 +1,114 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<!-- Android is the real target; Windows is only for fast iteration without an emulator. -->
+		<TargetFrameworks>net10.0-android</TargetFrameworks>
+		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net10.0-windows10.0.19041.0</TargetFrameworks>
+
+		<OutputType>Exe</OutputType>
+		<RootNamespace>PokeJuegos.Mobile</RootNamespace>
+		<UseMaui>true</UseMaui>
+		<SingleProject>true</SingleProject>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+
+		<!-- XAML is compiled to C# at build time: same code path in Debug and Release. -->
+		<MauiXamlInflator>SourceGen</MauiXamlInflator>
+
+		<!-- Display name -->
+		<ApplicationTitle>PokeJuegos</ApplicationTitle>
+
+		<!-- App Identifier -->
+		<ApplicationId>com.pokejuegos.mobile</ApplicationId>
+
+		<!-- Versions -->
+		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+		<ApplicationVersion>1</ApplicationVersion>
+
+		<!-- Unpackaged Windows app (plain .exe, no MSIX). -->
+		<WindowsPackageType>None</WindowsPackageType>
+
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
+		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
+	</PropertyGroup>
+
+	<!--
+		Release-crash guards. Debug builds skip trimming, so code that relies on reflection
+		works in Debug and crashes only in the Release APK. These turn those cases into build errors:
+		- IL2026/IL2067/IL2070/IL2072/IL2075/IL2091/IL3050: trimming/AOT-unsafe reflection in our code.
+		- XC0022/XC0023/XC0025/XC0045: XAML bindings that can't be compiled (reflection-based at runtime).
+		IL2104 ("assembly X produced trim warnings") is left as a warning: it fires for third-party
+		packages we don't control; those are handled case by case (e.g. preserving SQLite models).
+	-->
+	<PropertyGroup>
+		<EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+		<WarningsAsErrors>$(WarningsAsErrors);IL2026;IL2067;IL2070;IL2072;IL2075;IL2091;IL3050;XC0022;XC0023;XC0025;XC0045</WarningsAsErrors>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)' == 'Release' And $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">
+		<!-- Installable .apk (adb install) instead of only the Play Store .aab. -->
+		<AndroidPackageFormat>apk</AndroidPackageFormat>
+	</PropertyGroup>
+
+	<!--
+		Release signing with the local dev keystore, kept outside the repo (see README).
+		If it doesn't exist the build still works: .NET for Android falls back to its debug keystore.
+		Store and key passwords come from two different files on purpose: when both point to the same file,
+		apksigner reads them as consecutive lines, so a one-line file fails with "end of file reached"
+		("java.exe" exited with code 2).
+	-->
+	<PropertyGroup>
+		<PokeJuegosKeystoreDir>$(UserProfile)\.pokejuegos</PokeJuegosKeystoreDir>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)' == 'Release' And $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android' And Exists('$(PokeJuegosKeystoreDir)\pokejuegos-dev.keystore')">
+		<AndroidKeyStore>true</AndroidKeyStore>
+		<AndroidSigningKeyStore>$(PokeJuegosKeystoreDir)\pokejuegos-dev.keystore</AndroidSigningKeyStore>
+		<AndroidSigningKeyAlias>pokejuegos</AndroidSigningKeyAlias>
+		<AndroidSigningStorePass>file:$(PokeJuegosKeystoreDir)\keystore-pass.txt</AndroidSigningStorePass>
+		<AndroidSigningKeyPass>file:$(PokeJuegosKeystoreDir)\key-pass.txt</AndroidSigningKeyPass>
+	</PropertyGroup>
+
+	<!--
+		Debug deploys on Android: forward the device's localhost:5224 to the API on this machine
+		(see Services/ApiSettings.cs). The rule is lost whenever the emulator or the adb server restarts,
+		so it's recreated on every install. Never fails the deploy (e.g. with the API down it still works).
+	-->
+	<Target Name="ReverseApiPort" AfterTargets="Install" Condition="'$(Configuration)' == 'Debug' And $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">
+		<Exec Command="&quot;$([MSBuild]::EnsureTrailingSlash('$(AndroidSdkDirectory)'))platform-tools\adb&quot; $(AdbTarget) reverse tcp:5224 tcp:5224" ContinueOnError="true" />
+	</Target>
+
+	<ItemGroup>
+		<!-- App Icon -->
+		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#FFFFFF" />
+
+		<!-- Splash Screen -->
+		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#F22539" BaseSize="128,128" />
+
+		<!-- Images -->
+		<MauiImage Include="Resources\Images\*" />
+		<!-- Pokemon sprites: already sized, copy as-is instead of one per density -->
+		<MauiImage Include="Resources\Images\Sprites\*.webp" Resize="false" />
+		<!-- 1920x613 bitmap: resized as-is it would be taken as 1920 dp and scaled up x4 -->
+		<MauiImage Update="Resources\Images\bg_pokedex_screen.png" Resize="false" />
+
+		<!-- Custom Fonts -->
+		<MauiFont Include="Resources\Fonts\*.ttf" />
+
+		<!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
+		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="CommunityToolkit.Maui" Version="13.0.0" />
+		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.0" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
+		<PackageReference Include="sqlite-net-pcl" Version="1.11.285" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\PokeJuegos.DTO\PokeJuegos.DTO.csproj" />
+	</ItemGroup>
+
+</Project>
