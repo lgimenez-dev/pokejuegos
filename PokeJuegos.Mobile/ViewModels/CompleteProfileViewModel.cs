@@ -78,11 +78,11 @@ public partial class CompleteProfileViewModel(IAuthService authService, ISession
 			}
 		}
 
-		switch (result.Error)
+		switch (result.ErrorCode)
 		{
 			case null: break;
-			case AuthValidation.UsernameAlreadyRegistered: UsernameError = result.Error; break;
-			default: ErrorMessage = result.Error; break;
+			case ErrorText.UsernameAlreadyTaken: UsernameError = result.Error!; break;
+			default: ErrorMessage = result.Error!; break;
 		}
 	}
 

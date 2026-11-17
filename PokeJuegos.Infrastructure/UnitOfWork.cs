@@ -24,6 +24,9 @@ internal sealed class UnitOfWork : IUnitOfWork
     /// <inheritdoc/>
     public ISmtpConfigRepository SmtpConfigs { get; }
 
+    /// <inheritdoc/>
+    public IUserConfigRepository UserConfigs { get; }
+
     /// <summary>
     /// Initializes a new instance of <see cref="UnitOfWork"/> and creates all repository instances
     /// backed by the given <paramref name="context"/>.
@@ -36,6 +39,7 @@ internal sealed class UnitOfWork : IUnitOfWork
         Persons = new PersonRepository(context);
         UserSessions = new UserSessionRepository(context);
         SmtpConfigs = new SmtpConfigRepository(context);
+        UserConfigs = new UserConfigRepository(context);
     }
 
     /// <inheritdoc/>

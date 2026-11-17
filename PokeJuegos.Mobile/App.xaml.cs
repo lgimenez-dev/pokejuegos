@@ -1,9 +1,14 @@
+using PokeJuegos.Mobile.Services;
+
 namespace PokeJuegos.Mobile;
 
 public partial class App : Application
 {
-	public App()
+	private readonly IUserConfigService userConfig;
+
+	public App(IUserConfigService userConfig)
 	{
+		this.userConfig = userConfig;
 		InitializeComponent();
 
 		// No dark palette is designed yet (same as the RN version): pin the light theme.
@@ -12,6 +17,11 @@ public partial class App : Application
 
 	protected override Window CreateWindow(IActivationState? activationState)
 	{
-		return new Window(new AppShell());
+		// Texts are read when pages are built: the language goes first.
+		userConfig.ApplySavedLanguage();
+
+		Window window = new(new AppShell());
+		window.Created += async (_, _) => await userConfig.SyncAsync();
+		return window;
 	}
 }

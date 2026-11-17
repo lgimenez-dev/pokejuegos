@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:strings="clr-namespace:PokeJuegos.Mobile.Resources.Strings"
              xmlns:vm="clr-namespace:PokeJuegos.Mobile.ViewModels"
              x:Class="PokeJuegos.Mobile.Views.WelcomePage"
              x:DataType="vm:WelcomeViewModel"
@@ -28,23 +29,23 @@
                        AbsoluteLayout.LayoutBounds="0,0,1,1"
                        AbsoluteLayout.LayoutFlags="All"
                        Aspect="AspectFit"
-                       SemanticProperties.Description="Pikachu waving" />
+                       SemanticProperties.Description="{x:Static strings:AppResources.A11y_PikachuWaving}" />
             </AbsoluteLayout>
 
-            <Label Text="Welcome to PokeJuegos"
+            <Label Text="{x:Static strings:AppResources.Welcome_Title}"
                    Style="{StaticResource TitleLabel}"
                    SemanticProperties.HeadingLevel="Level1" />
 
-            <Label Text="A hub of Pokémon-themed minigames — Pokédex, quizzes and more, all in one place."
+            <Label Text="{x:Static strings:AppResources.Welcome_Body}"
                    Style="{StaticResource BodyLabel}" />
 
-            <Button Text="Get Started"
+            <Button Text="{x:Static strings:AppResources.Welcome_GetStarted}"
                     Style="{StaticResource PrimaryButton}"
                     WidthRequest="224"
                     HorizontalOptions="Center"
                     Command="{Binding GetStartedCommand}" />
 
-            <Label Text="Fan-made project. Not affiliated with or endorsed by Nintendo, Game Freak or The Pokémon Company."
+            <Label Text="{x:Static strings:AppResources.Welcome_Disclaimer}"
                    Style="{StaticResource CaptionLabel}" />
         </VerticalStackLayout>
     </ScrollView>

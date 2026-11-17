@@ -19,6 +19,9 @@ public interface IUnitOfWork : IDisposable
     /// <summary>Gets the SMTP configuration repository.</summary>
     ISmtpConfigRepository SmtpConfigs { get; }
 
+    /// <summary>Gets the user configuration repository.</summary>
+    IUserConfigRepository UserConfigs { get; }
+
     /// <summary>
     /// Persists all pending changes to the database.
     /// </summary>

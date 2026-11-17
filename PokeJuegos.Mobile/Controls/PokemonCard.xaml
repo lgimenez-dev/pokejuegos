@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:strings="clr-namespace:PokeJuegos.Mobile.Resources.Strings"
              xmlns:controls="clr-namespace:PokeJuegos.Mobile.Controls"
              xmlns:models="clr-namespace:PokeJuegos.Mobile.Models"
              x:Class="PokeJuegos.Mobile.Controls.PokemonCard"
@@ -29,7 +30,7 @@
                          WidthRequest="44"
                          HeightRequest="44"
                          VerticalOptions="Center"
-                         SemanticProperties.Description="Toggle favorite">
+                         SemanticProperties.Description="{x:Static strings:AppResources.A11y_ToggleFavorite}">
                 <ImageButton.Triggers>
                     <DataTrigger TargetType="ImageButton" Binding="{Binding IsFavorite}" Value="True">
                         <Setter Property="Source" Value="star_active_icon.png" />

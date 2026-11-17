@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:strings="clr-namespace:PokeJuegos.Mobile.Resources.Strings"
              xmlns:vm="clr-namespace:PokeJuegos.Mobile.ViewModels"
              xmlns:controls="clr-namespace:PokeJuegos.Mobile.Controls"
              x:Class="PokeJuegos.Mobile.Views.CompleteProfilePage"
@@ -16,10 +17,10 @@
                              VerticalOptions="Center">
 
             <VerticalStackLayout Spacing="8">
-                <Label Text="Complete your profile"
+                <Label Text="{x:Static strings:AppResources.Profile_Title}"
                        Style="{StaticResource SubtitleLabel}"
                        SemanticProperties.HeadingLevel="Level1" />
-                <Label Text="Choose a username to finish signing up."
+                <Label Text="{x:Static strings:AppResources.Profile_Body}"
                        Style="{StaticResource BodyLabel}"
                        HorizontalTextAlignment="Center" />
             </VerticalStackLayout>
@@ -27,12 +28,12 @@
             <VerticalStackLayout Spacing="20">
                 <controls:FormEntry Text="{Binding Name}"
                                     ErrorText="{Binding NameError}"
-                                    Placeholder="Name"
+                                    Placeholder="{x:Static strings:AppResources.Common_Name}"
                                     Keyboard="Text"
                                     ReturnType="Next" />
                 <controls:FormEntry Text="{Binding Username}"
                                     ErrorText="{Binding UsernameError}"
-                                    Placeholder="Username"
+                                    Placeholder="{x:Static strings:AppResources.Common_Username}"
                                     ReturnType="Done" />
                 <Label Text="{Binding ErrorMessage}"
                        IsVisible="{Binding HasError}"
@@ -41,13 +42,13 @@
 
             <Grid ColumnDefinitions="*,*" ColumnSpacing="15">
                 <Button Grid.Column="0"
-                        Text="Cancel"
+                        Text="{x:Static strings:AppResources.Common_Cancel}"
                         Style="{StaticResource OutlineButton}"
                         HeightRequest="44"
                         Padding="0"
                         Command="{Binding CancelCommand}" />
                 <Button Grid.Column="1"
-                        Text="Continue"
+                        Text="{x:Static strings:AppResources.Common_Continue}"
                         Style="{StaticResource PrimaryButton}"
                         HeightRequest="44"
                         Padding="0"

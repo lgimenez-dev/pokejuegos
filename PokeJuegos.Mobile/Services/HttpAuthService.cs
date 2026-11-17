@@ -9,15 +9,16 @@ namespace PokeJuegos.Mobile.Services;
 
 /// <summary>
 /// <see cref="IAuthService"/> against <c>/api/auth</c> of <c>PokeJuegos.Api</c>.
+/// The API answers errors as codes; <see cref="AuthResult{T}"/> translates them.
 /// </summary>
 public class HttpAuthService(ISessionService session, IOAuthBrowser browser) : IAuthService
 {
-	private const string ServerUnreachable = "Can't reach the server. Check your connection and try again.";
-	private const string UnexpectedError = "Something went wrong. Please try again.";
-	private const string TooManyAttempts = "Too many attempts. Try again in a minute.";
-	private const string SessionExpired = "Your session has expired. Please log in again.";
+	private const string ServerUnreachable = ErrorText.ServerUnreachable;
+	private const string UnexpectedError = ErrorText.UnexpectedError;
+	private const string TooManyAttempts = ErrorText.TooManyAttempts;
+	private const string SessionExpired = ErrorText.SessionExpired;
 
-	private readonly HttpClient http = new()
+	private readonly HttpClient http = new(new AcceptLanguageHandler())
 	{
 		BaseAddress = new Uri(ApiSettings.BaseUrl),
 		Timeout = TimeSpan.FromSeconds(15),
@@ -92,7 +93,7 @@ public class HttpAuthService(ISessionService session, IOAuthBrowser browser) : I
 			return null;
 		}
 
-		// e.g. the email already belongs to a password account (ProviderMismatch).
+		// e.g. the email already belongs to a password account (PROVIDER_MISMATCH).
 		if (redirect.TryGetValue("error", out string? error))
 		{
 			return AuthResult<LoginResponse>.Failure(error);
@@ -107,7 +108,7 @@ public class HttpAuthService(ISessionService session, IOAuthBrowser browser) : I
 		AuthResult<MeResponse> me = await GetMeAsync(token, ct);
 		if (!me.IsSuccess)
 		{
-			return AuthResult<LoginResponse>.Failure(me.Error ?? UnexpectedError);
+			return AuthResult<LoginResponse>.Failure(me.ErrorCode ?? UnexpectedError);
 		}
 
 		bool profileComplete = redirect.TryGetValue("profile_complete", out string? flag) && flag == "true";

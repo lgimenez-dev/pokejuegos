@@ -23,6 +23,9 @@ public sealed class AppDbContext : DbContext
     /// <summary>Gets or sets the SMTP configurations dataset.</summary>
     public DbSet<SmtpConfig> SmtpConfigs { get; set; } = null!;
 
+    /// <summary>Gets or sets the user configurations dataset.</summary>
+    public DbSet<UserConfig> UserConfigs { get; set; } = null!;
+
     /// <summary>
     /// Initializes a new instance of <see cref="AppDbContext"/> with the specified options.
     /// </summary>

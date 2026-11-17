@@ -1,7 +1,7 @@
 namespace PokeJuegos.Web.Services;
 
 /// <summary>
-/// Outcome of a call to <c>PokeJuegos.Api</c>: success, or the error to show (general and/or per field).
+/// Outcome of a call to <c>PokeJuegos.Api</c>: success, or the error codes to translate and show (general and/or per field).
 /// </summary>
 /// <param name="IsSuccess">Whether the API accepted the request.</param>
 /// <param name="Error">A general error message, or <see langword="null"/>.</param>

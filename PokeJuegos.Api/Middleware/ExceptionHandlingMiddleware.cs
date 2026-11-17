@@ -1,3 +1,5 @@
+using PokeJuegos.Application;
+
 namespace PokeJuegos.Api.Middleware;
 
 /// <summary>
@@ -22,8 +24,8 @@ public class ExceptionHandlingMiddleware(RequestDelegate next, IHostEnvironment 
             context.Response.ContentType = "application/json";
 
             object error = env.IsDevelopment()
-                ? new { message = "Internal server error.", exception = ex.Message, stackTrace = ex.StackTrace }
-                : (object)new { message = "Internal server error." };
+                ? new { message = ErrorMessages.InternalServerError, exception = ex.Message, stackTrace = ex.StackTrace }
+                : (object)new { message = ErrorMessages.InternalServerError };
 
             await context.Response.WriteAsJsonAsync(new { errors = new[] { error } });
         }

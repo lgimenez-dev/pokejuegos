@@ -1,26 +1,26 @@
 @page
 @model ActivateModel
 @{
-    ViewData["Title"] = "Activate your account";
+    ViewData["Title"] = Localizer["Activate_Title"];
 }
 
 @switch (Model.State)
 {
     case ActivationState.Ready:
-        <p>Your account is almost ready. Press the button to activate it.</p>
+        <p>@Localizer["Activate_Ready"]</p>
         <form method="post">
             <input type="hidden" asp-for="Token" />
-            <button type="submit" class="button">Activate my account</button>
+            <button type="submit" class="button">@Localizer["Activate_Button"]</button>
         </form>
         break;
 
     case ActivationState.Activated:
-        <p class="status status-success">Your account is active.</p>
-        <p>Go back to the app and log in with your email or username and the password you chose.</p>
+        <p class="status status-success">@Localizer["Activate_Success"]</p>
+        <p>@Localizer["Activate_SuccessHint"]</p>
         break;
 
     case ActivationState.Failed:
         <p class="status status-error">@Model.Error</p>
-        <p>If your link expired, register again from the app to get a new one.</p>
+        <p>@Localizer["Activate_ExpiredHint"]</p>
         break;
 }

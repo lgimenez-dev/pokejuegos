@@ -13,6 +13,6 @@ public sealed class ActivateAccountValidator : AbstractValidator<ActivateAccount
     /// </summary>
     public ActivateAccountValidator()
     {
-        RuleFor(x => x.Token).NotEmpty();
+        RuleFor(x => x.Token).NotEmpty().WithMessage(ErrorMessages.FieldRequired);
     }
 }

@@ -15,7 +15,7 @@ ON CONFLICT DO NOTHING;
 -- Seed: initial game catalog
 INSERT INTO games (code, name, has_ranking) VALUES
     ('pokedex', 'Pokédex', false),
-    ('roulette', 'Quién es ese Pokémon', true)
+    ('roulette', 'Who''s That Pokémon?', true)
 ON CONFLICT (code) DO NOTHING;
 
 

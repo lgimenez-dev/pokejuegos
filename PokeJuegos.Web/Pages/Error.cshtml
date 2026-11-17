@@ -1,6 +1,6 @@
 @page
 @{
-    ViewData["Title"] = "Something went wrong";
+    ViewData["Title"] = Localizer["ErrorPage_Title"];
 }
 
-<p class="status status-error">An unexpected error occurred. Please try again later.</p>
+<p class="status status-error">@Localizer["ErrorPage_Message"]</p>

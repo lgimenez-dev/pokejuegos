@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:strings="clr-namespace:PokeJuegos.Mobile.Resources.Strings"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:vm="clr-namespace:PokeJuegos.Mobile.ViewModels"
              xmlns:models="clr-namespace:PokeJuegos.Mobile.Models"
@@ -65,7 +66,7 @@
                    Source="{Binding CurrentPokemon.Sprite}"
                    IsVisible="{Binding IsSilhouette}"
                    Aspect="AspectFit"
-                   SemanticProperties.Description="Pokémon silhouette">
+                   SemanticProperties.Description="{x:Static strings:AppResources.A11y_Silhouette}">
                 <Image.Behaviors>
                     <toolkit:IconTintColorBehavior TintColor="{StaticResource Black}" />
                 </Image.Behaviors>
@@ -125,7 +126,7 @@
                      HorizontalOptions="Start"
                      VerticalOptions="Start"
                      BackgroundColor="Transparent"
-                     SemanticProperties.Description="Go back">
+                     SemanticProperties.Description="{x:Static strings:AppResources.A11y_GoBack}">
             <ImageButton.Behaviors>
                 <toolkit:IconTintColorBehavior TintColor="{StaticResource White}" />
             </ImageButton.Behaviors>
@@ -144,7 +145,7 @@
                      HorizontalOptions="End"
                      VerticalOptions="Start"
                      BackgroundColor="Transparent"
-                     SemanticProperties.Description="Show top scorers" />
+                     SemanticProperties.Description="{x:Static strings:AppResources.A11y_ShowTopScores}" />
 
         <!-- .topCard: "SCORE" over the big number, top 2rem. -->
         <VerticalStackLayout Margin="0,20,0,0"
@@ -153,7 +154,7 @@
                              VerticalOptions="Start"
                              InputTransparent="True">
             <!-- 1.4rem, weight 900, letter-spacing 0.3em (CharacterSpacing is in 1/16 em). -->
-            <Label Text="SCORE"
+            <Label Text="{x:Static strings:AppResources.Roulette_Score}"
                    FontFamily="LatoBlack"
                    FontSize="14"
                    CharacterSpacing="4.8"
@@ -207,22 +208,22 @@
                         <controls:OptionPicker ItemsSource="{Binding GuessOptions}"
                                                SelectedItem="{Binding SelectedGuess}"
                                                ItemDisplayBinding="{Binding Title, x:DataType=models:RoulettePokemon}"
-                                               Placeholder="Choose a Pokémon"
+                                               Placeholder="{x:Static strings:AppResources.Roulette_ChoosePokemon}"
                                                IsEnabled="{Binding IsPickerEnabled}" />
 
                         <!-- Bottom card slot (4.6rem): Spin, Choose or Reset depending on the round. -->
                         <Grid HeightRequest="46">
-                            <Button Text="Spin"
+                            <Button Text="{x:Static strings:AppResources.Roulette_Spin}"
                                     Style="{StaticResource RouletteButton}"
                                     Command="{Binding SpinCommand}"
                                     IsVisible="{Binding IsSpinButtonVisible}"
                                     IsEnabled="{Binding IsSpinEnabled}" />
-                            <Button Text="Choose"
+                            <Button Text="{x:Static strings:AppResources.Roulette_Choose}"
                                     Style="{StaticResource RouletteButton}"
                                     Command="{Binding ChooseCommand}"
                                     IsVisible="{Binding IsChooseButtonVisible}"
                                     IsEnabled="{Binding CanChoose}" />
-                            <Button Text="Reset"
+                            <Button Text="{x:Static strings:AppResources.Roulette_Reset}"
                                     Style="{StaticResource OutlineButton}"
                                     HeightRequest="46"
                                     CornerRadius="23"
@@ -240,7 +241,7 @@
         <controls:ConfettiView x:Name="Confetti" />
 
         <!-- TopScoresModal.vue, drawn over everything. -->
-        <controls:ModalView Title="Top 10 Players"
+        <controls:ModalView Title="{x:Static strings:AppResources.Roulette_TopPlayers}"
                             IsOpen="{Binding IsTopScoresOpen}"
                             CloseCommand="{Binding CloseTopScoresCommand}">
             <VerticalStackLayout>
@@ -263,7 +264,7 @@
 
                 <!-- .lastScore: the player's own rank, even outside the top. -->
                 <VerticalStackLayout Spacing="6" Margin="0,12,0,0" IsVisible="{Binding HasLastScore}">
-                    <Label Text="LAST SCORE"
+                    <Label Text="{x:Static strings:AppResources.Roulette_LastScore}"
                            FontFamily="LatoBold"
                            FontSize="13"
                            CharacterSpacing="0.8"
@@ -280,7 +281,7 @@
                     </Border>
                 </VerticalStackLayout>
 
-                <Button Text="Upload my score"
+                <Button Text="{x:Static strings:AppResources.Roulette_Upload}"
                         Style="{StaticResource RouletteButton}"
                         Margin="0,12,0,0"
                         Command="{Binding UploadCommand}"
@@ -288,8 +289,8 @@
             </VerticalStackLayout>
         </controls:ModalView>
 
-        <controls:ConfirmModalView Title="Leave game?"
-                                   Message="If you leave now you'll lose your current progress."
+        <controls:ConfirmModalView Title="{x:Static strings:AppResources.Roulette_LeaveTitle}"
+                                   Message="{x:Static strings:AppResources.Roulette_LeaveMessage}"
                                    IsOpen="{Binding IsLeaveConfirmOpen}"
                                    ConfirmCommand="{Binding ConfirmLeaveCommand}"
                                    CancelCommand="{Binding CancelLeaveCommand}" />

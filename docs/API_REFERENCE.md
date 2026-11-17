@@ -36,6 +36,19 @@ endpoint, see [Authentication flow](FLOW_AUTH_REGISTER.md).
 | POST | `/` | Admin | Creates it (single record) |
 | PUT | `/` | Admin | Replaces it |
 
+## User config — `/api/user-config`
+
+| Method | Endpoint | Auth | Description |
+|---|---|---|---|
+| GET | `/` | JWT | The user's preferences (`language`, `sound`, `updatedAt`). Defaults with `updatedAt: null` if never saved |
+| PUT | `/` | JWT | Syncs the client's copy (`language` `en`/`es`/`null`, `sound`, `updatedAt`). Saved only if newer than the server's; always answers the copy the server keeps |
+
+## Language
+
+Requests may send `Accept-Language` (`en` or `es`, English otherwise). It picks the language of the emails sent by
+`/register` and `/recover-password`, whose links carry `&lang=` for the web pages. Responses never contain display
+texts: errors are codes that the clients translate.
+
 ## Errors
 
 | Status | Body | When |
@@ -49,4 +62,18 @@ endpoint, see [Authentication flow](FLOW_AUTH_REGISTER.md).
 | 429 | — | Rate limit exceeded (`/login`, `/recover-password`) |
 | 500 | — | Unexpected error (handled by `ExceptionHandlingMiddleware`) |
 
-`BusinessErrorResponse` is `{ "message": "..." }`.
+`BusinessErrorResponse` is `{ "message": "CODE" }` and `ValidationErrorResponse` is
+`{ "errors": [{ "field": "Email", "message": "CODE" }] }`. The codes are in
+`PokeJuegos.Application/ErrorMessages.cs`:
+
+| Group | Codes |
+|---|---|
+| Auth | `INVALID_CREDENTIALS`, `EMAIL_ALREADY_REGISTERED`, `USERNAME_ALREADY_TAKEN`, `ACCOUNT_PENDING`, `ACCOUNT_INACTIVE`, `INVALID_OR_EXPIRED_TOKEN`, `PROFILE_ALREADY_COMPLETE` |
+| OAuth2 | `PROVIDER_MISMATCH` (also in the `error` / `oauth_error` redirect parameter), `INVALID_RETURN_URL` |
+| Sessions | `USER_NOT_FOUND`, `SESSION_NOT_FOUND` |
+| SMTP config | `SMTP_CONFIG_NOT_FOUND`, `SMTP_CONFIG_ALREADY_EXISTS` |
+| Validation | `FIELD_REQUIRED`, `INVALID_EMAIL`, `PASSWORD_TOO_SHORT`, `PASSWORD_UPPERCASE_REQUIRED`, `PASSWORD_DIGIT_REQUIRED`, `INVALID_USERNAME`, `EMAIL_OR_USERNAME_REQUIRED`, `INVALID_PORT`, `INVALID_LANGUAGE` |
+| Unexpected (500) | `INTERNAL_SERVER_ERROR` |
+
+A new code needs its `Error_<CODE>` text in the app (`AppResources.resx` + `.es.resx`) and, if the web can show it,
+in `PokeJuegos.Web/Resources/SharedResource*.resx`. Unknown codes show a generic error.

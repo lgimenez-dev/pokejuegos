@@ -38,6 +38,12 @@ Routes.cs        Route name constants;  AppShell.xaml.cs registers them;  MauiPr
   `AddTransient` in `MauiProgram.cs`, services as `AddSingleton`, route in `AppShell.xaml.cs`. `//general` resets
   the stack. Platform-specific implementations with `#if ANDROID / #elif WINDOWS` in `MauiProgram`.
 - **Reuse `PokeJuegos.DTO`** for API requests/responses. `ApiSettings.BaseUrl` must stay `http://localhost:5224/`.
+- **Texts are never literals.** English in `Resources/Strings/AppResources.resx`, Spanish (neutral, "tú") in
+  `AppResources.es.resx`; XAML uses `{x:Static strings:AppResources.Key}`, C# `AppResources.Key`. Add the key to both
+  `.resx` files and to `AppResources.Designer.cs` (committed; Visual Studio regenerates it when the `.resx` is saved;
+  MSBuild-time generation doesn't work because WinUI pre-compiles XAML first). API errors arrive as codes:
+  `AuthResult` translates them with `ErrorText.For` (`Error_<CODE>`); react to specific ones with `ErrorCode`.
+  Changing the language rebuilds the `AppShell` (pages read their texts when built), see `UserConfigService`.
 - Styles: use the existing keys in `Styles.xaml` (`TitleLabel`, `SubtitleLabel`, `BodyLabel`, `ErrorLabel`,
   `PrimaryButton`, `SecondaryButton`, `TertiaryButton`, `OutlineButton`, `ModalCard`...). Palette in `Colors.xaml`
   (Primary `#F22539`, Secondary `#C00E20`). Fonts: Lato; Press Start 2P only for GAME OVER.

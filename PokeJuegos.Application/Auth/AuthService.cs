@@ -18,7 +18,7 @@ namespace PokeJuegos.Application.Auth;
 public sealed class AuthService( IUnitOfWork unitOfWork, IJwtService jwtService, IPasswordService passwordService, IEmailService emailService, IConfiguration configuration) : IAuthService
 {
     /// <inheritdoc/>
-    public async Task<Result<bool>> RegisterAsync(RegisterRequest request, CancellationToken ct = default)
+    public async Task<Result<bool>> RegisterAsync(RegisterRequest request, string language, CancellationToken ct = default)
     {
         User? existing = await unitOfWork.Users.GetByEmailAsync(request.Email!, ct);
         if (existing is not null)
@@ -31,7 +31,7 @@ public sealed class AuthService( IUnitOfWork unitOfWork, IJwtService jwtService,
             User? existingByUsername = await unitOfWork.Users.GetByUsernameAsync(request.Username, ct);
             if (existingByUsername is not null)
             {
-                return ErrorMessages.UsernameAlreadyRegistered;
+                return ErrorMessages.UsernameAlreadyTaken;
             }
         }
 
@@ -52,9 +52,9 @@ public sealed class AuthService( IUnitOfWork unitOfWork, IJwtService jwtService,
         {
             string frontendUrl = configuration["App:FrontendUrl"]!.TrimEnd('/');
             string appName = configuration["App:Name"]!;
-            string link = $"{frontendUrl}/activate?token={activationToken}";
-            string body = EmailHelper.AccountActivation(request.Name!, link, appName);
-            await emailService.SendAsync(smtpConfig, request.Email!, $"Activate your account in {appName}", body, ct);
+            string link = $"{frontendUrl}/activate?token={activationToken}&lang={EmailHelper.LanguageCode(language)}";
+            (string subject, string body) = EmailHelper.AccountActivation(request.Name!, link, appName, language);
+            await emailService.SendAsync(smtpConfig, request.Email!, subject, body, ct);
         }
 
         return true;
@@ -149,7 +149,7 @@ public sealed class AuthService( IUnitOfWork unitOfWork, IJwtService jwtService,
     }
 
     /// <inheritdoc/>
-    public async Task<Result<bool>> RecoverPasswordAsync(RecoverPasswordRequest request, CancellationToken ct = default)
+    public async Task<Result<bool>> RecoverPasswordAsync(RecoverPasswordRequest request, string language, CancellationToken ct = default)
     {
         User? user = await unitOfWork.Users.GetByEmailAsync(request.Email!, ct);
         if (user is null || user.Status == UserStatus.Pending)
@@ -168,13 +168,13 @@ public sealed class AuthService( IUnitOfWork unitOfWork, IJwtService jwtService,
         {
             string frontendUrl = configuration["App:FrontendUrl"]!.TrimEnd('/');
             string appName = configuration["App:Name"]!;
-            string link = $"{frontendUrl}/reset-password?token={recoveryToken}";
+            string link = $"{frontendUrl}/reset-password?token={recoveryToken}&lang={EmailHelper.LanguageCode(language)}";
             string name = person?.Name ?? user.Email;
 
             // OAuth2 accounts (e.g. Google) start without a password: the same link creates one.
             (string subject, string body) = user.PasswordHash is null
-                ? ($"Create a password for {appName}", EmailHelper.PasswordCreation(name, link, appName))
-                : ($"Reset your password in {appName}", EmailHelper.PasswordRecovery(name, link, appName));
+                ? EmailHelper.PasswordCreation(name, link, appName, language)
+                : EmailHelper.PasswordRecovery(name, link, appName, language);
             await emailService.SendAsync(smtpConfig, user.Email, subject, body, ct);
         }
 
@@ -232,7 +232,7 @@ public sealed class AuthService( IUnitOfWork unitOfWork, IJwtService jwtService,
         User? existingByUsername = await unitOfWork.Users.GetByUsernameAsync(request.Username!, ct);
         if (existingByUsername is not null)
         {
-            return ErrorMessages.UsernameAlreadyRegistered;
+            return ErrorMessages.UsernameAlreadyTaken;
         }
 
         user.SetUsername(request.Username!);

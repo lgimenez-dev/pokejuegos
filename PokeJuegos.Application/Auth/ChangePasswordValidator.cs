@@ -14,11 +14,11 @@ public sealed class ChangePasswordValidator : AbstractValidator<ChangePasswordRe
     /// </summary>
     public ChangePasswordValidator()
     {
-        RuleFor(x => x.Token).NotEmpty();
+        RuleFor(x => x.Token).NotEmpty().WithMessage(ErrorMessages.FieldRequired);
         RuleFor(x => x.Password)
-            .NotEmpty()
-            .MinimumLength(8)
-            .Matches("[A-Z]").WithMessage("'Password' must contain at least one uppercase letter.")
-            .Matches("[0-9]").WithMessage("'Password' must contain at least one digit.");
+            .NotEmpty().WithMessage(ErrorMessages.FieldRequired)
+            .MinimumLength(8).WithMessage(ErrorMessages.PasswordTooShort)
+            .Matches("[A-Z]").WithMessage(ErrorMessages.PasswordUppercaseRequired)
+            .Matches("[0-9]").WithMessage(ErrorMessages.PasswordDigitRequired);
     }
 }

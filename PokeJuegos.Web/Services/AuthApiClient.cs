@@ -8,12 +8,15 @@ namespace PokeJuegos.Web.Services;
 
 /// <summary>
 /// Calls the token-based endpoints of <c>/api/auth</c> in <c>PokeJuegos.Api</c> (server to server).
+/// Errors come back as codes (the API's, or <c>SERVER_UNREACHABLE</c>, <c>TOO_MANY_ATTEMPTS</c>, <c>UNEXPECTED_ERROR</c>);
+/// the pages translate them.
 /// </summary>
 /// <param name="http">The client configured with <c>Api:BaseUrl</c> in <c>Program.cs</c>.</param>
 public class AuthApiClient(HttpClient http)
 {
-    private const string ServerUnreachable = "Can't reach the server. Please try again in a few minutes.";
-    private const string UnexpectedError = "Something went wrong. Please try again.";
+    private const string ServerUnreachable = "SERVER_UNREACHABLE";
+    private const string TooManyAttempts = "TOO_MANY_ATTEMPTS";
+    private const string UnexpectedError = "UNEXPECTED_ERROR";
 
     private static readonly JsonSerializerOptions JsonOptions = new(JsonSerializerDefaults.Web);
 
@@ -58,7 +61,7 @@ public class AuthApiClient(HttpClient http)
     {
         if (response.StatusCode == HttpStatusCode.TooManyRequests)
         {
-            return ApiResult.Failure("Too many attempts. Try again in a minute.");
+            return ApiResult.Failure(TooManyAttempts);
         }
 
         try

@@ -50,7 +50,7 @@ Common ← DTO ← Domain ← Application ← Api
 | `PokeJuegos.Common` | Enums (`UserRole`, `UserStatus`, `UserProvider`), helpers, `Optional<T>`. No dependencies | `Enums/`, `Helpers/` |
 | `PokeJuegos.DTO` | Request/response records. No reference to Domain, so the mobile app and the web can reuse it | `Auth/`, `SmtpConfig/`, `UserSessions/` |
 | `PokeJuegos.Domain` | Entities, repository interfaces, `Result<T>`, `IUnitOfWork` | `Entities/`, `Repositories/` |
-| `PokeJuegos.Application` | Services and validators per feature, error messages, email templates, contracts for infrastructure services | `Auth/`, `OAuth2/`, `Sessions/`, `SmtpConfig/`, `Services/`, `Helpers/` |
+| `PokeJuegos.Application` | Services and validators per feature, error codes (`ErrorMessages`), email templates, contracts for infrastructure services | `Auth/`, `OAuth2/`, `Sessions/`, `SmtpConfig/`, `UserConfig/`, `Services/`, `Helpers/` |
 | `PokeJuegos.Infrastructure` | EF Core `DbContext` and configurations, repositories, JWT, BCrypt and MailKit implementations | `Configurations/`, `Repositories/`, `Services/` |
 | `PokeJuegos.Api` | Controllers, middleware, DI wiring. No business logic | `Controllers/`, `Extensions/` (JWT, Google, Swagger, CORS), `Middleware/`, `Models/`, `Helpers/` |
 

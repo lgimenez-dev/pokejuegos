@@ -10,7 +10,7 @@ backend). The database hasn't been created yet.
 
 | Column | Type | Notes |
 |---|---|---|
-| `code` | `varchar(50)` | Stable identifier: `pokedex`, `quien-es-ese-pokemon`, `battle-survivor` |
+| `code` | `varchar(50)` | Stable identifier: `pokedex`, `roulette` (Who's That Pokémon?), `battle-survivor` |
 | `name` | `varchar(100)` | Internal name. The app shows the translated name based on `code` |
 | `has_ranking` | `boolean` | `true` for games with a score; `false` for the Pokédex |
 
@@ -80,7 +80,7 @@ Always a **JSON object**, never a bare array, so fields can be added without cha
 
 | Game | Format | Content |
 |---|---|---|
-| `quien-es-ese-pokemon` | `{"guessed": 42}` | Pokémon guessed in the best play |
+| `roulette` | `{"guessed": 42}` | Pokémon guessed in the best play |
 | `pokedex` | `{"favorites": [1, 4, 25]}` | Ids of the favorite Pokémon, without duplicates and sorted |
 
 The database doesn't validate the content of `metadata`. The **API** validates the shape of each game's object and
@@ -88,11 +88,19 @@ that favorite ids are between 1 and 386 (Generations I–III).
 
 ## Languages
 
-- The app's interface supports English and Spanish.
+- The app, the web pages and the emails support English and Spanish (neutral Spanish, "tú").
+- The user picks the language in the app's **Settings**: System, English or Español. It's saved on the device and
+  synced to `user_configs.language` (last write wins, see below).
 - `user_configs.language` set to `NULL` means "follow the device language", so a new user isn't forced into a
-  language.
-- The backend also uses the saved language for emails (activation, password recovery).
-- Game names are translated in the app based on `games.code`; `games.name` is internal only.
+  language. The app resolves it to Spanish if the device is in any Spanish variant, English otherwise.
+- **The API never returns display texts.** Errors are UPPER_SNAKE_CASE codes in `message`
+  (`PokeJuegos.Application/ErrorMessages.cs`, e.g. `USERNAME_ALREADY_TAKEN`), and each client translates them
+  (`Error_<CODE>` in the app's `AppResources.resx` and the web's `SharedResource.resx`).
+- Data in the database is internal and in English: game names are translated in the app based on `games.code`;
+  `games.name` is internal only. The same applies to any future catalog (e.g. achievements).
+- **Emails** use the request's `Accept-Language` (`en`/`es`, English by default). The app sends its effective
+  language on every call, which already reflects the saved setting, so registration works before a
+  `user_configs` row exists. The links carry `&lang=en|es` so the web opens in the same language.
 
 ## Syncing between the app and the API
 
@@ -131,4 +139,4 @@ Favorites and settings are synced separately, each with its own `updated_at`.
 3. Endpoints: record a play, ranking and position, favorites (read and sync), settings (read and
    sync).
 4. Username form after logging in with OAuth.
-5. App: sync of favorites and settings, and texts in English and Spanish.
+5. App: sync of favorites and of the sound setting (the language is already synced).

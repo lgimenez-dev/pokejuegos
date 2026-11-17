@@ -14,10 +14,9 @@ public sealed class CompleteProfileValidator : AbstractValidator<CompleteProfile
     /// </summary>
     public CompleteProfileValidator()
     {
-        RuleFor(x => x.Name).NotEmpty();
+        RuleFor(x => x.Name).NotEmpty().WithMessage(ErrorMessages.FieldRequired);
         RuleFor(x => x.Username)
-            .NotEmpty()
-            .Matches("^[A-Za-z0-9._-]{3,32}$")
-            .WithMessage("'Username' must be 3-32 characters and contain only letters, digits, dots, underscores, and hyphens.");
+            .NotEmpty().WithMessage(ErrorMessages.FieldRequired)
+            .Matches("^[A-Za-z0-9._-]{3,32}$").WithMessage(ErrorMessages.InvalidUsername);
     }
 }

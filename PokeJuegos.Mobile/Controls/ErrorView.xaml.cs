@@ -1,4 +1,5 @@
 using System.Windows.Input;
+using PokeJuegos.Mobile.Resources.Strings;
 
 namespace PokeJuegos.Mobile.Controls;
 
@@ -8,7 +9,8 @@ public partial class ErrorView : ContentView
 		BindableProperty.Create(nameof(ErrorMessage), typeof(string), typeof(ErrorView), string.Empty);
 
 	public static readonly BindableProperty ButtonTextProperty =
-		BindableProperty.Create(nameof(ButtonText), typeof(string), typeof(ErrorView), "Go back home");
+		BindableProperty.Create(nameof(ButtonText), typeof(string), typeof(ErrorView), string.Empty,
+			defaultValueCreator: _ => AppResources.Common_GoBackHome);
 
 	/// <summary>Replaces the <c>backToHome</c> event of the Vue/RN component.</summary>
 	public static readonly BindableProperty BackToHomeCommandProperty =

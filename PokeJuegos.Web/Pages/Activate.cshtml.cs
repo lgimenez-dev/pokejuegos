@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Localization;
 using PokeJuegos.Web.Services;
 
 namespace PokeJuegos.Web.Pages;
@@ -25,9 +26,10 @@ public enum ActivationState
 /// (e.g. Outlook Safe Links) would otherwise consume the token before the user gets here.
 /// </summary>
 /// <param name="api">The client for <c>PokeJuegos.Api</c>.</param>
-public class ActivateModel(AuthApiClient api) : PageModel
+/// <param name="localizer">The page texts, used to translate error codes.</param>
+public class ActivateModel(AuthApiClient api, IStringLocalizer<SharedResource> localizer) : PageModel
 {
-    private const string MissingToken = "This activation link is incomplete. Open it again from the email.";
+    private const string MissingToken = "LINK_INCOMPLETE";
 
     /// <summary>The activation token, from the link's query string (and the form's hidden field on POST).</summary>
     [BindProperty(SupportsGet = true)]
@@ -36,7 +38,7 @@ public class ActivateModel(AuthApiClient api) : PageModel
     /// <summary>What the page shows.</summary>
     public ActivationState State { get; private set; }
 
-    /// <summary>The error shown when <see cref="State"/> is <see cref="ActivationState.Failed"/>.</summary>
+    /// <summary>The translated error shown when <see cref="State"/> is <see cref="ActivationState.Failed"/>.</summary>
     public string? Error { get; private set; }
 
     /// <summary>
@@ -76,9 +78,9 @@ public class ActivateModel(AuthApiClient api) : PageModel
         Fail(result.Error ?? result.FieldErrors.Values.FirstOrDefault() ?? MissingToken);
     }
 
-    private void Fail(string error)
+    private void Fail(string code)
     {
         State = ActivationState.Failed;
-        Error = error;
+        Error = localizer.Error(code);
     }
 }

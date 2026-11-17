@@ -1,3 +1,5 @@
+using PokeJuegos.Mobile.Resources.Strings;
+
 namespace PokeJuegos.Mobile.Controls;
 
 public partial class SearchBox : ContentView
@@ -6,7 +8,8 @@ public partial class SearchBox : ContentView
 		BindableProperty.Create(nameof(Text), typeof(string), typeof(SearchBox), string.Empty, BindingMode.TwoWay);
 
 	public static readonly BindableProperty PlaceholderProperty =
-		BindableProperty.Create(nameof(Placeholder), typeof(string), typeof(SearchBox), "Search");
+		BindableProperty.Create(nameof(Placeholder), typeof(string), typeof(SearchBox), string.Empty,
+			defaultValueCreator: _ => AppResources.Common_Search);
 
 	public SearchBox()
 	{

@@ -2,6 +2,7 @@ using PokeJuegos.Application.Auth;
 using PokeJuegos.Application.OAuth2;
 using PokeJuegos.Application.Sessions;
 using PokeJuegos.Application.SmtpConfigs;
+using PokeJuegos.Application.UserConfigs;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -24,6 +25,7 @@ public static class ApplicationExtensions
         services.AddScoped<IUserSessionService, UserSessionService>();
         services.AddScoped<ISmtpConfigService, SmtpConfigService>();
         services.AddScoped<IOAuth2Service, OAuth2Service>();
+        services.AddScoped<IUserConfigService, UserConfigService>();
         return services;
     }
 }

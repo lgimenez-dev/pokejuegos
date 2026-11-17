@@ -42,6 +42,7 @@ public static class MauiProgram
 		builder.Services.AddSingleton<IPokeApiService, PokeApiService>();
 		builder.Services.AddSingleton<IFavoritesService, FavoritesService>();
 		builder.Services.AddSingleton<ITopScoresService, TopScoresService>();
+		builder.Services.AddSingleton<IUserConfigService, UserConfigService>();
 
 		// Pages and ViewModels: transient, a fresh instance per navigation.
 		builder.Services.AddTransient<WelcomePage>();
@@ -60,6 +61,8 @@ public static class MauiProgram
 		builder.Services.AddTransient<PokedexViewModel>();
 		builder.Services.AddTransient<RoulettePage>();
 		builder.Services.AddTransient<RouletteViewModel>();
+		builder.Services.AddTransient<SettingsPage>();
+		builder.Services.AddTransient<SettingsViewModel>();
 
 #if DEBUG
 		builder.Logging.AddDebug();

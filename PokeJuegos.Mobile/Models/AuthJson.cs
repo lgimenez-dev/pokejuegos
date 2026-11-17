@@ -5,12 +5,12 @@ using PokeJuegos.DTO;
 namespace PokeJuegos.Mobile.Models;
 
 /// <summary>Error body of a business-rule failure (copy of <c>PokeJuegos.Api.Models.BusinessErrorResponse</c>, internal to the API).</summary>
-/// <param name="Message">The user-facing error message.</param>
+/// <param name="Message">The error code (e.g. <c>INVALID_CREDENTIALS</c>), translated by <see cref="Services.ErrorText"/>.</param>
 public record BusinessErrorResponse(string Message);
 
 /// <summary>One failed rule of a validation error (copy of <c>PokeJuegos.Api.Models.FieldError</c>).</summary>
 /// <param name="Field">The request property that failed (e.g. <c>Email</c>), or <c>null</c> for object-level rules.</param>
-/// <param name="Message">The validation message.</param>
+/// <param name="Message">The validation error code (e.g. <c>INVALID_EMAIL</c>).</param>
 public record FieldError(string? Field, string Message);
 
 /// <summary>Error body of a validation failure (copy of <c>PokeJuegos.Api.Models.ValidationErrorResponse</c>).</summary>
@@ -26,6 +26,8 @@ public record ValidationErrorResponse(IReadOnlyList<FieldError> Errors);
 [JsonSerializable(typeof(CompleteProfileRequest))]
 [JsonSerializable(typeof(RecoverPasswordRequest))]
 [JsonSerializable(typeof(MeResponse))]
+[JsonSerializable(typeof(UserConfigRequest))]
+[JsonSerializable(typeof(UserConfigResponse))]
 [JsonSerializable(typeof(BusinessErrorResponse))]
 [JsonSerializable(typeof(ValidationErrorResponse))]
 internal sealed partial class AuthJsonContext : JsonSerializerContext;

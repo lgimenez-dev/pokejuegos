@@ -6,7 +6,7 @@ description: Conventions and workflow for the PokeJuegos backend — PokeJuegos.
 # PokeJuegos backend
 
 .NET 10, Clean Architecture, flat PostgreSQL (single `public` schema, no multi-tenancy). Everything in English:
-code, XML comments, error messages, endpoints.
+code, XML comments, endpoints. The API never returns display texts: errors are codes, translated by the clients.
 
 ## Dependency rule (never break it)
 
@@ -41,7 +41,10 @@ No CQRS, MediatR, commands/queries or pipeline behaviors.
 ### Result pattern
 
 Services return `Result<T>`; never throw for business rules (`ExceptionHandlingMiddleware` handles the truly
-unexpected). Prefer the implicit operators. Error strings always come from `ErrorMessages` constants.
+unexpected). Prefer the implicit operators. Errors always come from `ErrorMessages` constants, whose values are
+UPPER_SNAKE_CASE codes (`USERNAME_ALREADY_TAKEN`), also in validators (`.WithMessage(ErrorMessages.InvalidEmail)` on
+every rule, never FluentValidation's default sentence). A new code needs `Error_<CODE>` in the app's
+`AppResources.resx`/`.es.resx` and, if the web shows it, in `PokeJuegos.Web/Resources/SharedResource*.resx`.
 
 ```csharp
 return true;                              // Success
@@ -104,6 +107,9 @@ return Ok();
 - `recover-password` always answers 200 (no account enumeration).
 
 ## Emails (`Application/Helpers/EmailHelper.cs`)
+
+English and Spanish (neutral, "tú"): texts in the `EmailTexts` records, language from the request's
+`Accept-Language` (`AddDefaultRequestLocalization`), passed by the controller; links carry `&lang=`.
 
 White background, no card (no grey background, rounded borders or shadow). Centered bold title with divider,
 full-width pill button `#F22539`, red links, Lato with Arial fallback, max 440px column, footer `© 2026 {appName}`

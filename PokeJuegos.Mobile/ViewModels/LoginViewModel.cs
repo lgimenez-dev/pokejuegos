@@ -2,11 +2,12 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using PokeJuegos.DTO;
 using PokeJuegos.Mobile.Models;
+using PokeJuegos.Mobile.Resources.Strings;
 using PokeJuegos.Mobile.Services;
 
 namespace PokeJuegos.Mobile.ViewModels;
 
-public partial class LoginViewModel(IAuthService authService, INavigationService navigation) : ObservableObject
+public partial class LoginViewModel(IAuthService authService, IUserConfigService userConfig, INavigationService navigation) : ObservableObject
 {
 	/// <summary>Username or email: the backend accepts either one in <see cref="LoginRequest"/>.</summary>
 	[ObservableProperty]
@@ -40,7 +41,7 @@ public partial class LoginViewModel(IAuthService authService, INavigationService
 		string identifier = Identifier.Trim();
 		if (identifier.Length == 0 || Password.Length == 0)
 		{
-			ErrorMessage = "Enter your username and password.";
+			ErrorMessage = AppResources.Login_MissingCredentials;
 			return;
 		}
 
@@ -62,6 +63,9 @@ public partial class LoginViewModel(IAuthService authService, INavigationService
 			}
 
 			Password = string.Empty;
+
+			// Brings the language chosen on another device (may rebuild the UI in it) or uploads this one's.
+			await userConfig.SyncAsync();
 			await navigation.GoToAsync($"//{Routes.General}");
 		}
 		finally
@@ -93,6 +97,8 @@ public partial class LoginViewModel(IAuthService authService, INavigationService
 				ErrorMessage = result.Error ?? result.FieldErrors.Values.First();
 				return;
 			}
+
+			await userConfig.SyncAsync();
 
 			// First Google sign-in: the account has no username yet.
 			await navigation.GoToAsync(result.Value!.ProfileComplete ? $"//{Routes.General}" : Routes.CompleteProfile);

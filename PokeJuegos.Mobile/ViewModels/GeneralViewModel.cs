@@ -4,7 +4,7 @@ using PokeJuegos.Mobile.Services;
 
 namespace PokeJuegos.Mobile.ViewModels;
 
-/// <summary>Game selector shown after login.</summary>
+/// <summary>Game selector shown after login, with the way to the settings.</summary>
 public partial class GeneralViewModel(INavigationService navigation) : ObservableObject
 {
 	[RelayCommand]
@@ -12,4 +12,7 @@ public partial class GeneralViewModel(INavigationService navigation) : Observabl
 
 	[RelayCommand]
 	private Task OpenRouletteAsync() => navigation.GoToAsync(Routes.Roulette);
+
+	[RelayCommand]
+	private Task OpenSettingsAsync() => navigation.GoToAsync(Routes.Settings);
 }

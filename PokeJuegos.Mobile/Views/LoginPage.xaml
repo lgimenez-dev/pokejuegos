@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:strings="clr-namespace:PokeJuegos.Mobile.Resources.Strings"
              xmlns:vm="clr-namespace:PokeJuegos.Mobile.ViewModels"
              xmlns:controls="clr-namespace:PokeJuegos.Mobile.Controls"
              x:Class="PokeJuegos.Mobile.Views.LoginPage"
@@ -15,23 +16,23 @@
                              WidthRequest="315"
                              VerticalOptions="Center">
 
-            <Label Text="Log in to PokeJuegos"
+            <Label Text="{x:Static strings:AppResources.Login_Title}"
                    Style="{StaticResource SubtitleLabel}"
                    SemanticProperties.HeadingLevel="Level1" />
 
             <VerticalStackLayout Spacing="20">
                 <controls:FormEntry Text="{Binding Identifier}"
-                                    Placeholder="Username or email"
+                                    Placeholder="{x:Static strings:AppResources.Login_Identifier}"
                                     ReturnType="Next" />
                 <controls:FormEntry Text="{Binding Password}"
-                                    Placeholder="Password"
+                                    Placeholder="{x:Static strings:AppResources.Common_Password}"
                                     IsPassword="True"
                                     ReturnType="Done" />
                 <Label Text="{Binding ErrorMessage}"
                        IsVisible="{Binding HasError}"
                        Style="{StaticResource ErrorLabel}" />
                 <!-- Not in LoginView.vue: password recovery (also lets Google accounts create a password). -->
-                <Label Text="Forgot your password?"
+                <Label Text="{x:Static strings:AppResources.Common_ForgotPassword}"
                        Style="{StaticResource CaptionLabel}"
                        TextColor="{StaticResource Primary}"
                        TextDecorations="Underline"
@@ -44,13 +45,13 @@
 
             <Grid ColumnDefinitions="*,*" ColumnSpacing="15">
                 <Button Grid.Column="0"
-                        Text="Register"
+                        Text="{x:Static strings:AppResources.Common_Register}"
                         Style="{StaticResource OutlineButton}"
                         HeightRequest="44"
                         Padding="0"
                         Command="{Binding GoToRegisterCommand}" />
                 <Button Grid.Column="1"
-                        Text="Login"
+                        Text="{x:Static strings:AppResources.Login_Button}"
                         Style="{StaticResource PrimaryButton}"
                         HeightRequest="44"
                         Padding="0"
@@ -60,11 +61,11 @@
             <!-- Not in LoginView.vue: Google sign-in (system browser; see IOAuthBrowser). -->
             <Grid ColumnDefinitions="*,Auto,*" ColumnSpacing="12">
                 <BoxView Grid.Column="0" Style="{StaticResource Divider}" VerticalOptions="Center" />
-                <Label Grid.Column="1" Text="or" Style="{StaticResource CaptionLabel}" />
+                <Label Grid.Column="1" Text="{x:Static strings:AppResources.Login_Or}" Style="{StaticResource CaptionLabel}" />
                 <BoxView Grid.Column="2" Style="{StaticResource Divider}" VerticalOptions="Center" />
             </Grid>
 
-            <Button Text="Continue with Google"
+            <Button Text="{x:Static strings:AppResources.Login_Google}"
                     ImageSource="google_icon.png"
                     ContentLayout="Left,10"
                     Style="{StaticResource OutlineButton}"
@@ -79,8 +80,8 @@
             <HorizontalStackLayout IsVisible="{Binding GoogleLoginCommand.IsRunning}"
                                    HorizontalOptions="Center"
                                    Spacing="8">
-                <Label Text="Waiting for Google…" Style="{StaticResource CaptionLabel}" />
-                <Label Text="Cancel"
+                <Label Text="{x:Static strings:AppResources.Login_WaitingForGoogle}" Style="{StaticResource CaptionLabel}" />
+                <Label Text="{x:Static strings:AppResources.Common_Cancel}"
                        Style="{StaticResource CaptionLabel}"
                        TextColor="{StaticResource Primary}"
                        TextDecorations="Underline">

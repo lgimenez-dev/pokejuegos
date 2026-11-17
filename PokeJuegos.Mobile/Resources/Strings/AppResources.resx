@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Common_Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Common_Continue" xml:space="preserve">
+    <value>Continue</value>
+  </data>
+  <data name="Common_Back" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="Common_Ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="Common_Yes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="Common_No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="Common_Register" xml:space="preserve">
+    <value>Register</value>
+  </data>
+  <data name="Common_Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Common_Username" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="Common_Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="Common_Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="Common_ConfirmPassword" xml:space="preserve">
+    <value>Confirm password</value>
+  </data>
+  <data name="Common_CheckYourEmail" xml:space="preserve">
+    <value>Check your email</value>
+  </data>
+  <data name="Common_ForgotPassword" xml:space="preserve">
+    <value>Forgot your password?</value>
+  </data>
+  <data name="Common_Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="Common_GoBackHome" xml:space="preserve">
+    <value>Go back home</value>
+  </data>
+  <data name="Common_UhOh" xml:space="preserve">
+    <value>Uh-oh!</value>
+  </data>
+  <data name="A11y_GoBack" xml:space="preserve">
+    <value>Go back</value>
+  </data>
+  <data name="A11y_Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="A11y_ToggleFavorite" xml:space="preserve">
+    <value>Toggle favorite</value>
+  </data>
+  <data name="A11y_Silhouette" xml:space="preserve">
+    <value>Pokémon silhouette</value>
+  </data>
+  <data name="A11y_ShowTopScores" xml:space="preserve">
+    <value>Show top scorers</value>
+  </data>
+  <data name="A11y_PikachuWaving" xml:space="preserve">
+    <value>Pikachu waving</value>
+  </data>
+  <data name="A11y_Close" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="A11y_Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="Welcome_Title" xml:space="preserve">
+    <value>Welcome to PokeJuegos</value>
+  </data>
+  <data name="Welcome_Body" xml:space="preserve">
+    <value>A hub of Pokémon-themed minigames — Pokédex, quizzes and more, all in one place.</value>
+  </data>
+  <data name="Welcome_GetStarted" xml:space="preserve">
+    <value>Get Started</value>
+  </data>
+  <data name="Welcome_Disclaimer" xml:space="preserve">
+    <value>Fan-made project. Not affiliated with or endorsed by Nintendo, Game Freak or The Pokémon Company.</value>
+  </data>
+  <data name="Login_Title" xml:space="preserve">
+    <value>Log in to PokeJuegos</value>
+  </data>
+  <data name="Login_Identifier" xml:space="preserve">
+    <value>Username or email</value>
+  </data>
+  <data name="Login_Button" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="Login_Or" xml:space="preserve">
+    <value>or</value>
+  </data>
+  <data name="Login_Google" xml:space="preserve">
+    <value>Continue with Google</value>
+  </data>
+  <data name="Login_WaitingForGoogle" xml:space="preserve">
+    <value>Waiting for Google…</value>
+  </data>
+  <data name="Login_MissingCredentials" xml:space="preserve">
+    <value>Enter your username and password.</value>
+  </data>
+  <data name="Register_Title" xml:space="preserve">
+    <value>Create your account</value>
+  </data>
+  <data name="Register_SuccessMessage" xml:space="preserve">
+    <value>We sent you a link to activate your account. Open it, then log in.</value>
+  </data>
+  <data name="Register_PasswordsDontMatch" xml:space="preserve">
+    <value>Passwords don't match.</value>
+  </data>
+  <data name="Forgot_Body" xml:space="preserve">
+    <value>Enter your account's email and we'll send you a link to reset your password. If you signed up with Google, the link lets you create one.</value>
+  </data>
+  <data name="Forgot_Send" xml:space="preserve">
+    <value>Send link</value>
+  </data>
+  <data name="Forgot_SuccessMessage" xml:space="preserve">
+    <value>If there's an account with that email, we sent it a link. It expires in 30 minutes.</value>
+  </data>
+  <data name="Profile_Title" xml:space="preserve">
+    <value>Complete your profile</value>
+  </data>
+  <data name="Profile_Body" xml:space="preserve">
+    <value>Choose a username to finish signing up.</value>
+  </data>
+  <data name="Validation_Name" xml:space="preserve">
+    <value>Enter your name.</value>
+  </data>
+  <data name="Validation_Password" xml:space="preserve">
+    <value>At least 8 characters, with an uppercase letter and a digit.</value>
+  </data>
+  <data name="General_Title" xml:space="preserve">
+    <value>Choose a game</value>
+  </data>
+  <data name="Game_Pokedex" xml:space="preserve">
+    <value>Pokédex</value>
+  </data>
+  <data name="Game_Roulette" xml:space="preserve">
+    <value>Who's That Pokémon?</value>
+  </data>
+  <data name="Pokedex_NoFavorites" xml:space="preserve">
+    <value>No favorites yet. Tap the star on any Pokémon to add it here.</value>
+  </data>
+  <data name="Pokedex_All" xml:space="preserve">
+    <value>All</value>
+  </data>
+  <data name="Pokedex_Favorites" xml:space="preserve">
+    <value>Favorites</value>
+  </data>
+  <data name="Pokedex_Weight" xml:space="preserve">
+    <value>Weight: </value>
+  </data>
+  <data name="Pokedex_Height" xml:space="preserve">
+    <value>Height: </value>
+  </data>
+  <data name="Pokedex_Types" xml:space="preserve">
+    <value>Types: </value>
+  </data>
+  <data name="Pokedex_Share" xml:space="preserve">
+    <value>Share to my friends</value>
+  </data>
+  <data name="Pokedex_ShareText" xml:space="preserve">
+    <value>name: {0}, weight: {1}, height: {2}, types: {3}</value>
+  </data>
+  <data name="Pokedex_NoResults" xml:space="preserve">
+    <value>You look lost on your journey!</value>
+  </data>
+  <data name="Pokedex_DataError" xml:space="preserve">
+    <value>Failed to load data.</value>
+  </data>
+  <data name="Roulette_Score" xml:space="preserve">
+    <value>SCORE</value>
+  </data>
+  <data name="Roulette_ChoosePokemon" xml:space="preserve">
+    <value>Choose a Pokémon</value>
+  </data>
+  <data name="Roulette_Spin" xml:space="preserve">
+    <value>Spin</value>
+  </data>
+  <data name="Roulette_Choose" xml:space="preserve">
+    <value>Choose</value>
+  </data>
+  <data name="Roulette_Reset" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="Roulette_TopPlayers" xml:space="preserve">
+    <value>Top 10 Players</value>
+  </data>
+  <data name="Roulette_LastScore" xml:space="preserve">
+    <value>LAST SCORE</value>
+  </data>
+  <data name="Roulette_Upload" xml:space="preserve">
+    <value>Upload my score</value>
+  </data>
+  <data name="Roulette_LeaveTitle" xml:space="preserve">
+    <value>Leave game?</value>
+  </data>
+  <data name="Roulette_LeaveMessage" xml:space="preserve">
+    <value>If you leave now you'll lose your current progress.</value>
+  </data>
+  <data name="Roulette_Points" xml:space="preserve">
+    <value>{0} pts</value>
+  </data>
+  <data name="Settings_Title" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="Settings_Language" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="Settings_LanguageSystem" xml:space="preserve">
+    <value>System default</value>
+  </data>
+  <data name="Error_SERVER_UNREACHABLE" xml:space="preserve">
+    <value>Can't reach the server. Check your connection and try again.</value>
+  </data>
+  <data name="Error_SESSION_EXPIRED" xml:space="preserve">
+    <value>Your session has expired. Please log in again.</value>
+  </data>
+  <data name="Error_INVALID_CREDENTIALS" xml:space="preserve">
+    <value>Invalid username, email or password.</value>
+  </data>
+  <data name="Error_EMAIL_ALREADY_REGISTERED" xml:space="preserve">
+    <value>An account with this email address already exists.</value>
+  </data>
+  <data name="Error_USERNAME_ALREADY_TAKEN" xml:space="preserve">
+    <value>This username is already taken.</value>
+  </data>
+  <data name="Error_ACCOUNT_PENDING" xml:space="preserve">
+    <value>Your account has not been activated yet. Check your email for the activation link.</value>
+  </data>
+  <data name="Error_ACCOUNT_INACTIVE" xml:space="preserve">
+    <value>Your account has been deactivated. Please contact support.</value>
+  </data>
+  <data name="Error_INVALID_OR_EXPIRED_TOKEN" xml:space="preserve">
+    <value>This link is invalid or has expired.</value>
+  </data>
+  <data name="Error_PROFILE_ALREADY_COMPLETE" xml:space="preserve">
+    <value>Your profile is already complete.</value>
+  </data>
+  <data name="Error_PROVIDER_MISMATCH" xml:space="preserve">
+    <value>An account already exists with this email address. Please log in with your password.</value>
+  </data>
+  <data name="Error_INVALID_RETURN_URL" xml:space="preserve">
+    <value>The return URL is not allowed.</value>
+  </data>
+  <data name="Error_USER_NOT_FOUND" xml:space="preserve">
+    <value>User not found.</value>
+  </data>
+  <data name="Error_SESSION_NOT_FOUND" xml:space="preserve">
+    <value>Your session has expired. Please log in again.</value>
+  </data>
+  <data name="Error_FIELD_REQUIRED" xml:space="preserve">
+    <value>This field is required.</value>
+  </data>
+  <data name="Error_INVALID_EMAIL" xml:space="preserve">
+    <value>Enter a valid email address.</value>
+  </data>
+  <data name="Error_PASSWORD_TOO_SHORT" xml:space="preserve">
+    <value>The password must be at least 8 characters long.</value>
+  </data>
+  <data name="Error_PASSWORD_UPPERCASE_REQUIRED" xml:space="preserve">
+    <value>The password must contain at least one uppercase letter.</value>
+  </data>
+  <data name="Error_PASSWORD_DIGIT_REQUIRED" xml:space="preserve">
+    <value>The password must contain at least one digit.</value>
+  </data>
+  <data name="Error_INVALID_USERNAME" xml:space="preserve">
+    <value>3-32 characters: letters, digits, dots, underscores and hyphens.</value>
+  </data>
+  <data name="Error_EMAIL_OR_USERNAME_REQUIRED" xml:space="preserve">
+    <value>Enter your username or email.</value>
+  </data>
+  <data name="Error_INVALID_LANGUAGE" xml:space="preserve">
+    <value>Unsupported language.</value>
+  </data>
+  <data name="Error_INTERNAL_SERVER_ERROR" xml:space="preserve">
+    <value>Something went wrong. Please try again.</value>
+  </data>
+  <data name="Error_TOO_MANY_ATTEMPTS" xml:space="preserve">
+    <value>Too many attempts. Try again in a minute.</value>
+  </data>
+  <data name="Error_UNEXPECTED_ERROR" xml:space="preserve">
+    <value>Something went wrong. Please try again.</value>
+  </data>
+  <data name="Type_normal" xml:space="preserve">
+    <value>normal</value>
+  </data>
+  <data name="Type_fire" xml:space="preserve">
+    <value>fire</value>
+  </data>
+  <data name="Type_water" xml:space="preserve">
+    <value>water</value>
+  </data>
+  <data name="Type_grass" xml:space="preserve">
+    <value>grass</value>
+  </data>
+  <data name="Type_electric" xml:space="preserve">
+    <value>electric</value>
+  </data>
+  <data name="Type_ice" xml:space="preserve">
+    <value>ice</value>
+  </data>
+  <data name="Type_fighting" xml:space="preserve">
+    <value>fighting</value>
+  </data>
+  <data name="Type_poison" xml:space="preserve">
+    <value>poison</value>
+  </data>
+  <data name="Type_ground" xml:space="preserve">
+    <value>ground</value>
+  </data>
+  <data name="Type_flying" xml:space="preserve">
+    <value>flying</value>
+  </data>
+  <data name="Type_psychic" xml:space="preserve">
+    <value>psychic</value>
+  </data>
+  <data name="Type_bug" xml:space="preserve">
+    <value>bug</value>
+  </data>
+  <data name="Type_rock" xml:space="preserve">
+    <value>rock</value>
+  </data>
+  <data name="Type_ghost" xml:space="preserve">
+    <value>ghost</value>
+  </data>
+  <data name="Type_dragon" xml:space="preserve">
+    <value>dragon</value>
+  </data>
+  <data name="Type_dark" xml:space="preserve">
+    <value>dark</value>
+  </data>
+  <data name="Type_steel" xml:space="preserve">
+    <value>steel</value>
+  </data>
+  <data name="Type_fairy" xml:space="preserve">
+    <value>fairy</value>
+  </data>
+</root>

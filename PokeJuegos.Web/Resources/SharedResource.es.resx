@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Activate_Title" xml:space="preserve">
+    <value>Activa tu cuenta</value>
+  </data>
+  <data name="Activate_Ready" xml:space="preserve">
+    <value>Tu cuenta está casi lista. Presiona el botón para activarla.</value>
+  </data>
+  <data name="Activate_Button" xml:space="preserve">
+    <value>Activar mi cuenta</value>
+  </data>
+  <data name="Activate_Success" xml:space="preserve">
+    <value>Tu cuenta está activa.</value>
+  </data>
+  <data name="Activate_SuccessHint" xml:space="preserve">
+    <value>Vuelve a la app e inicia sesión con tu email o usuario y la contraseña que elegiste.</value>
+  </data>
+  <data name="Activate_ExpiredHint" xml:space="preserve">
+    <value>Si tu enlace venció, regístrate de nuevo desde la app para recibir uno nuevo.</value>
+  </data>
+  <data name="ErrorPage_Title" xml:space="preserve">
+    <value>Algo salió mal</value>
+  </data>
+  <data name="ErrorPage_Message" xml:space="preserve">
+    <value>Ocurrió un error inesperado. Inténtalo de nuevo más tarde.</value>
+  </data>
+  <data name="Index_Message" xml:space="preserve">
+    <value>Activa tu cuenta y restablece tu contraseña desde los enlaces que te enviamos por email. Todo lo demás pasa en la app.</value>
+  </data>
+  <data name="Reset_Title" xml:space="preserve">
+    <value>Restablece tu contraseña</value>
+  </data>
+  <data name="Reset_Success" xml:space="preserve">
+    <value>Tu contraseña se actualizó.</value>
+  </data>
+  <data name="Reset_SuccessHint" xml:space="preserve">
+    <value>Vuelve a la app e inicia sesión con tu nueva contraseña.</value>
+  </data>
+  <data name="Reset_NewPassword" xml:space="preserve">
+    <value>Nueva contraseña</value>
+  </data>
+  <data name="Reset_ConfirmPassword" xml:space="preserve">
+    <value>Confirmar contraseña</value>
+  </data>
+  <data name="Reset_Hint" xml:space="preserve">
+    <value>Al menos 8 caracteres, con una mayúscula y un número.</value>
+  </data>
+  <data name="Reset_Button" xml:space="preserve">
+    <value>Guardar contraseña</value>
+  </data>
+  <data name="Error_LINK_INCOMPLETE" xml:space="preserve">
+    <value>Este enlace está incompleto. Ábrelo de nuevo desde el email.</value>
+  </data>
+  <data name="Error_PASSWORDS_DONT_MATCH" xml:space="preserve">
+    <value>Las contraseñas no coinciden.</value>
+  </data>
+  <data name="Error_SERVER_UNREACHABLE" xml:space="preserve">
+    <value>No se puede conectar con el servidor. Inténtalo de nuevo en unos minutos.</value>
+  </data>
+  <data name="Error_INVALID_CREDENTIALS" xml:space="preserve">
+    <value>Usuario, email o contraseña incorrectos.</value>
+  </data>
+  <data name="Error_EMAIL_ALREADY_REGISTERED" xml:space="preserve">
+    <value>Ya existe una cuenta con este email.</value>
+  </data>
+  <data name="Error_USERNAME_ALREADY_TAKEN" xml:space="preserve">
+    <value>Este nombre de usuario ya está en uso.</value>
+  </data>
+  <data name="Error_ACCOUNT_PENDING" xml:space="preserve">
+    <value>Tu cuenta todavía no está activada. Revisa tu email para encontrar el enlace de activación.</value>
+  </data>
+  <data name="Error_ACCOUNT_INACTIVE" xml:space="preserve">
+    <value>Tu cuenta fue desactivada. Ponte en contacto con soporte.</value>
+  </data>
+  <data name="Error_INVALID_OR_EXPIRED_TOKEN" xml:space="preserve">
+    <value>Este enlace no es válido o ya venció.</value>
+  </data>
+  <data name="Error_PROFILE_ALREADY_COMPLETE" xml:space="preserve">
+    <value>Tu perfil ya está completo.</value>
+  </data>
+  <data name="Error_PROVIDER_MISMATCH" xml:space="preserve">
+    <value>Ya existe una cuenta con este email. Inicia sesión con tu contraseña.</value>
+  </data>
+  <data name="Error_INVALID_RETURN_URL" xml:space="preserve">
+    <value>La URL de retorno no está permitida.</value>
+  </data>
+  <data name="Error_USER_NOT_FOUND" xml:space="preserve">
+    <value>Usuario no encontrado.</value>
+  </data>
+  <data name="Error_SESSION_NOT_FOUND" xml:space="preserve">
+    <value>Tu sesión expiró. Vuelve a iniciar sesión.</value>
+  </data>
+  <data name="Error_FIELD_REQUIRED" xml:space="preserve">
+    <value>Este campo es obligatorio.</value>
+  </data>
+  <data name="Error_INVALID_EMAIL" xml:space="preserve">
+    <value>Ingresa un email válido.</value>
+  </data>
+  <data name="Error_PASSWORD_TOO_SHORT" xml:space="preserve">
+    <value>La contraseña debe tener al menos 8 caracteres.</value>
+  </data>
+  <data name="Error_PASSWORD_UPPERCASE_REQUIRED" xml:space="preserve">
+    <value>La contraseña debe tener al menos una mayúscula.</value>
+  </data>
+  <data name="Error_PASSWORD_DIGIT_REQUIRED" xml:space="preserve">
+    <value>La contraseña debe tener al menos un número.</value>
+  </data>
+  <data name="Error_INVALID_USERNAME" xml:space="preserve">
+    <value>De 3 a 32 caracteres: letras, números, puntos, guiones y guiones bajos.</value>
+  </data>
+  <data name="Error_EMAIL_OR_USERNAME_REQUIRED" xml:space="preserve">
+    <value>Ingresa tu usuario o email.</value>
+  </data>
+  <data name="Error_INVALID_LANGUAGE" xml:space="preserve">
+    <value>Idioma no soportado.</value>
+  </data>
+  <data name="Error_INTERNAL_SERVER_ERROR" xml:space="preserve">
+    <value>Algo salió mal. Inténtalo de nuevo.</value>
+  </data>
+  <data name="Error_TOO_MANY_ATTEMPTS" xml:space="preserve">
+    <value>Demasiados intentos. Prueba de nuevo en un minuto.</value>
+  </data>
+  <data name="Error_UNEXPECTED_ERROR" xml:space="preserve">
+    <value>Algo salió mal. Inténtalo de nuevo.</value>
+  </data>
+</root>

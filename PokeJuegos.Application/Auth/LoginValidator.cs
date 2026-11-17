@@ -15,12 +15,13 @@ public sealed class LoginValidator : AbstractValidator<LoginRequest>
     {
         RuleFor(x => x)
             .Must(x => !string.IsNullOrWhiteSpace(x.Email) ^ !string.IsNullOrWhiteSpace(x.Username))
-            .WithMessage("Provide either 'Email' or 'Username', not both or neither.");
-        RuleFor(x => x.Email).EmailAddress().When(x => !string.IsNullOrWhiteSpace(x.Email));
+            .WithMessage(ErrorMessages.EmailOrUsernameRequired);
+        RuleFor(x => x.Email)
+            .EmailAddress().WithMessage(ErrorMessages.InvalidEmail)
+            .When(x => !string.IsNullOrWhiteSpace(x.Email));
         RuleFor(x => x.Username)
-            .Matches("^[A-Za-z0-9._-]{3,32}$")
-            .WithMessage("'Username' must be 3-32 characters and contain only letters, digits, dots, underscores, and hyphens.")
+            .Matches("^[A-Za-z0-9._-]{3,32}$").WithMessage(ErrorMessages.InvalidUsername)
             .When(x => !string.IsNullOrWhiteSpace(x.Username));
-        RuleFor(x => x.Password).NotEmpty();
+        RuleFor(x => x.Password).NotEmpty().WithMessage(ErrorMessages.FieldRequired);
     }
 }

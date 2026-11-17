@@ -22,7 +22,7 @@ public class MockAuthService : IAuthService
 		string? identifier = request.Email ?? request.Username;
 		if (string.IsNullOrWhiteSpace(identifier) || string.IsNullOrEmpty(request.Password))
 		{
-			return AuthResult<LoginResponse>.Failure("Invalid email or password.");
+			return AuthResult<LoginResponse>.Failure("INVALID_CREDENTIALS");
 		}
 
 		string email = request.Email ?? $"{request.Username}@pokejuegos.local";

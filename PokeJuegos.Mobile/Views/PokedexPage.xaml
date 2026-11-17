@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:strings="clr-namespace:PokeJuegos.Mobile.Resources.Strings"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:vm="clr-namespace:PokeJuegos.Mobile.ViewModels"
              xmlns:models="clr-namespace:PokeJuegos.Mobile.Models"
@@ -29,7 +30,7 @@
                                  HeightRequest="44"
                                  Padding="8"
                                  VerticalOptions="Center"
-                                 SemanticProperties.Description="Go back">
+                                 SemanticProperties.Description="{x:Static strings:AppResources.A11y_GoBack}">
                         <ImageButton.Behaviors>
                             <toolkit:IconTintColorBehavior TintColor="{StaticResource MidGray}" />
                         </ImageButton.Behaviors>
@@ -41,7 +42,7 @@
                                  HeightRequest="44"
                                  Padding="12"
                                  VerticalOptions="Center"
-                                 SemanticProperties.Description="Search">
+                                 SemanticProperties.Description="{x:Static strings:AppResources.A11y_Search}">
                         <ImageButton.Behaviors>
                             <toolkit:IconTintColorBehavior TintColor="{StaticResource MidGray}" />
                         </ImageButton.Behaviors>
@@ -68,7 +69,7 @@
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                     <CollectionView.EmptyView>
-                        <Label Text="No favorites yet. Tap the star on any Pokémon to add it here."
+                        <Label Text="{x:Static strings:AppResources.Pokedex_NoFavorites}"
                                Style="{StaticResource BodyLabel}"
                                Margin="0,48" />
                     </CollectionView.EmptyView>
@@ -92,7 +93,7 @@
                       ColumnSpacing="10"
                       VerticalOptions="Center"
                       MaximumWidthRequest="{StaticResource PokedexContentWidth}">
-                    <Button Text="All"
+                    <Button Text="{x:Static strings:AppResources.Pokedex_All}"
                             ImageSource="list_icon.png"
                             Style="{StaticResource FilterButton}"
                             Command="{Binding ShowAllCommand}">
@@ -104,7 +105,7 @@
                         </Button.Triggers>
                     </Button>
                     <Button Grid.Column="1"
-                            Text="Favorites"
+                            Text="{x:Static strings:AppResources.Pokedex_Favorites}"
                             ImageSource="favs_icon.png"
                             Style="{StaticResource FilterButton}"
                             Command="{Binding ShowFavoritesCommand}">
@@ -142,7 +143,7 @@
                     <Label Style="{StaticResource DetailRowLabel}">
                         <Label.FormattedText>
                             <FormattedString>
-                                <Span Text="Weight: " FontFamily="LatoBold" />
+                                <Span Text="{x:Static strings:AppResources.Pokedex_Weight}" FontFamily="LatoBold" />
                                 <Span Text="{Binding SelectedDetail.Weight}" />
                             </FormattedString>
                         </Label.FormattedText>
@@ -151,7 +152,7 @@
                     <Label Style="{StaticResource DetailRowLabel}">
                         <Label.FormattedText>
                             <FormattedString>
-                                <Span Text="Height: " FontFamily="LatoBold" />
+                                <Span Text="{x:Static strings:AppResources.Pokedex_Height}" FontFamily="LatoBold" />
                                 <Span Text="{Binding SelectedDetail.Height}" />
                             </FormattedString>
                         </Label.FormattedText>
@@ -160,7 +161,7 @@
                     <Label Style="{StaticResource DetailRowLabel}">
                         <Label.FormattedText>
                             <FormattedString>
-                                <Span Text="Types: " FontFamily="LatoBold" />
+                                <Span Text="{x:Static strings:AppResources.Pokedex_Types}" FontFamily="LatoBold" />
                                 <Span Text="{Binding SelectedDetail.Types}" />
                             </FormattedString>
                         </Label.FormattedText>
@@ -170,7 +171,7 @@
 
                 <!-- containerButtons: h 4.4rem, mt 2rem; star 4.4rem, ml 1.2rem. -->
                 <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12" HeightRequest="44" Margin="0,20,0,0">
-                    <Button Text="Share to my friends"
+                    <Button Text="{x:Static strings:AppResources.Pokedex_Share}"
                             Style="{StaticResource PrimaryButton}"
                             FontFamily="LatoRegular"
                             HeightRequest="44"
@@ -183,7 +184,7 @@
                                  CommandParameter="{Binding SelectedPokemon}"
                                  WidthRequest="44"
                                  HeightRequest="44"
-                                 SemanticProperties.Description="Toggle favorite">
+                                 SemanticProperties.Description="{x:Static strings:AppResources.A11y_ToggleFavorite}">
                         <ImageButton.Triggers>
                             <DataTrigger TargetType="ImageButton" Binding="{Binding SelectedPokemon.IsFavorite}" Value="True">
                                 <Setter Property="Source" Value="star_active_icon.png" />

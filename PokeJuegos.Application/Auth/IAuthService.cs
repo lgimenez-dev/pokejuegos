@@ -12,12 +12,13 @@ public interface IAuthService
     /// Creates a new user account with <c>Pending</c> status and sends an activation email if SMTP is configured.
     /// </summary>
     /// <param name="request">The registration details.</param>
+    /// <param name="language">Two-letter language code of the email (<c>en</c> or <c>es</c>).</param>
     /// <param name="ct">Cancellation token.</param>
     /// <returns>
     /// <see cref="Result{T}.Success"/> with <see langword="true"/> on success, or
     /// <see cref="Result{T}.Failure"/> if the email address is already registered.
     /// </returns>
-    Task<Result<bool>> RegisterAsync(RegisterRequest request, CancellationToken ct = default);
+    Task<Result<bool>> RegisterAsync(RegisterRequest request, string language, CancellationToken ct = default);
 
     /// <summary>
     /// Authenticates a user, revokes any pre-existing sessions, and issues a new JWT session.
@@ -58,9 +59,10 @@ public interface IAuthService
     /// Always returns success to prevent user enumeration, even when the account is not found.
     /// </summary>
     /// <param name="request">The email used to identify the account.</param>
+    /// <param name="language">Two-letter language code of the email (<c>en</c> or <c>es</c>).</param>
     /// <param name="ct">Cancellation token.</param>
     /// <returns><see cref="Result{T}.Success"/> with <see langword="true"/> in all cases.</returns>
-    Task<Result<bool>> RecoverPasswordAsync(RecoverPasswordRequest request, CancellationToken ct = default);
+    Task<Result<bool>> RecoverPasswordAsync(RecoverPasswordRequest request, string language, CancellationToken ct = default);
 
     /// <summary>
     /// Activates a <c>Pending</c> account using the one-time token sent in the registration email.

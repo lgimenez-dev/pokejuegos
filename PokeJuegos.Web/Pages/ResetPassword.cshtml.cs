@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Localization;
 using PokeJuegos.Web.Services;
 
 namespace PokeJuegos.Web.Pages;
@@ -9,7 +10,8 @@ namespace PokeJuegos.Web.Pages;
 /// Password rules are enforced by the API; only the confirmation match is checked here.
 /// </summary>
 /// <param name="api">The client for <c>PokeJuegos.Api</c>.</param>
-public class ResetPasswordModel(AuthApiClient api) : PageModel
+/// <param name="localizer">The page texts, used to translate error codes.</param>
+public class ResetPasswordModel(AuthApiClient api, IStringLocalizer<SharedResource> localizer) : PageModel
 {
     /// <summary>The recovery token, from the link's query string (and the form's hidden field on POST).</summary>
     [BindProperty(SupportsGet = true)]
@@ -42,7 +44,7 @@ public class ResetPasswordModel(AuthApiClient api) : PageModel
 
         if (Password != ConfirmPassword)
         {
-            ModelState.AddModelError(nameof(ConfirmPassword), "Passwords don't match.");
+            ModelState.AddModelError(nameof(ConfirmPassword), localizer.Error("PASSWORDS_DONT_MATCH"));
             return;
         }
 
@@ -53,17 +55,17 @@ public class ResetPasswordModel(AuthApiClient api) : PageModel
             return;
         }
 
-        Error = result.Error;
-        foreach ((string field, string message) in result.FieldErrors)
+        Error = result.Error is null ? null : localizer.Error(result.Error);
+        foreach ((string field, string code) in result.FieldErrors)
         {
             if (field == nameof(Password))
             {
-                ModelState.AddModelError(nameof(Password), message);
+                ModelState.AddModelError(nameof(Password), localizer.Error(code));
             }
             else
             {
                 // e.g. Token: not an input of this form.
-                Error ??= message;
+                Error ??= localizer.Error(code);
             }
         }
     }

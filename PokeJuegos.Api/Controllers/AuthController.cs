@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using PokeJuegos.Api.Helpers;
@@ -47,7 +48,7 @@ public class AuthController(
             return BadRequest(ValidationErrorResponse.From(validation));
         }
 
-        Result<bool> result = await authService.RegisterAsync(request, ct);
+        Result<bool> result = await authService.RegisterAsync(request, CurrentLanguage(), ct);
         if (!result.IsSuccess)
         {
             return BadRequest(new BusinessErrorResponse(result.Error!));
@@ -165,7 +166,7 @@ public class AuthController(
             return BadRequest(ValidationErrorResponse.From(validation));
         }
 
-        await authService.RecoverPasswordAsync(request, ct);
+        await authService.RecoverPasswordAsync(request, CurrentLanguage(), ct);
         return Ok();
     }
 
@@ -277,4 +278,10 @@ public class AuthController(
     private string GetTokenFromRequest() =>
         Request.Cookies["access_token"]
         ?? Request.Headers.Authorization.ToString().Replace("Bearer ", "");
+
+    /// <summary>
+    /// The language of the request, resolved from <c>Accept-Language</c> by the request localization middleware.
+    /// </summary>
+    /// <returns>A two-letter language code (<c>en</c> or <c>es</c>).</returns>
+    private static string CurrentLanguage() => CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
 }

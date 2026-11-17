@@ -1,4 +1,5 @@
 using System.Text.RegularExpressions;
+using PokeJuegos.Mobile.Resources.Strings;
 
 namespace PokeJuegos.Mobile.Services;
 
@@ -8,17 +9,13 @@ namespace PokeJuegos.Mobile.Services;
 /// </summary>
 public static partial class AuthValidation
 {
-	// Business errors of the API that belong to a field (PokeJuegos.Application/ErrorMessages.cs).
-	public const string EmailAlreadyRegistered = "An account with this email address already exists.";
-	public const string UsernameAlreadyRegistered = "This username is already taken.";
-
 	public static string Name(string name) =>
-		name.Trim().Length == 0 ? "Enter your name." : string.Empty;
+		name.Trim().Length == 0 ? AppResources.Validation_Name : string.Empty;
 
 	public static string Username(string username) =>
 		UsernameRegex().IsMatch(username.Trim())
 			? string.Empty
-			: "3-32 characters: letters, digits, dots, underscores and hyphens.";
+			: AppResources.Error_INVALID_USERNAME;
 
 	// Same check as FluentValidation's EmailAddress(): one '@', not at either end.
 	public static string Email(string email)
@@ -27,13 +24,13 @@ public static partial class AuthValidation
 		int at = trimmed.IndexOf('@');
 		return at > 0 && at == trimmed.LastIndexOf('@') && at < trimmed.Length - 1
 			? string.Empty
-			: "Enter a valid email address.";
+			: AppResources.Error_INVALID_EMAIL;
 	}
 
 	public static string Password(string password) =>
 		password.Length >= 8 && password.Any(char.IsAsciiLetterUpper) && password.Any(char.IsAsciiDigit)
 			? string.Empty
-			: "At least 8 characters, with an uppercase letter and a digit.";
+			: AppResources.Validation_Password;
 
 	[GeneratedRegex("^[A-Za-z0-9._-]{3,32}$")]
 	private static partial Regex UsernameRegex();

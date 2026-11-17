@@ -14,19 +14,19 @@ public class UpdateSmtpConfigValidator : AbstractValidator<UpdateSmtpConfigReque
     public UpdateSmtpConfigValidator()
     {
         RuleFor(x => x.Host)
-            .NotEmpty().WithMessage("Host is required.");
+            .NotEmpty().WithMessage(ErrorMessages.FieldRequired);
 
         RuleFor(x => x.Port)
-            .InclusiveBetween(1, 65535).WithMessage("Port must be between 1 and 65535.");
+            .InclusiveBetween(1, 65535).WithMessage(ErrorMessages.InvalidPort);
 
         RuleFor(x => x.Email)
-            .NotEmpty().WithMessage("Email is required.")
-            .EmailAddress().WithMessage("Email must be a valid email address.");
+            .NotEmpty().WithMessage(ErrorMessages.FieldRequired)
+            .EmailAddress().WithMessage(ErrorMessages.InvalidEmail);
 
         RuleFor(x => x.Password)
-            .NotEmpty().WithMessage("Password is required.");
+            .NotEmpty().WithMessage(ErrorMessages.FieldRequired);
 
         RuleFor(x => x.SenderName)
-            .NotEmpty().WithMessage("Sender name is required.");
+            .NotEmpty().WithMessage(ErrorMessages.FieldRequired);
     }
 }

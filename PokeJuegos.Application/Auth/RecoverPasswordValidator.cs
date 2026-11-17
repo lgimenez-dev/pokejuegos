@@ -13,5 +13,8 @@ public sealed class RecoverPasswordValidator : AbstractValidator<RecoverPassword
     /// </summary>
     public RecoverPasswordValidator()
     {
-        RuleFor(x => x.Email).NotEmpty().EmailAddress();    }
+        RuleFor(x => x.Email)
+            .NotEmpty().WithMessage(ErrorMessages.FieldRequired)
+            .EmailAddress().WithMessage(ErrorMessages.InvalidEmail);
+    }
 }

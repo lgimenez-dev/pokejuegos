@@ -8,7 +8,7 @@ namespace PokeJuegos.Web.Pages;
 /// </summary>
 public class IndexModel : PageModel
 {
-    /// <summary>The error the API's Google callback appends as <c>?oauth_error=…</c>, if any.</summary>
+    /// <summary>The error code the API's Google callback appends as <c>?oauth_error=…</c>, if any.</summary>
     [BindProperty(SupportsGet = true, Name = "oauth_error")]
     public string? OAuthError { get; set; }
 }

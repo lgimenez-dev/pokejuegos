@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using PokeJuegos.Mobile.Models;
+using PokeJuegos.Mobile.Resources.Strings;
 using PokeJuegos.Mobile.Services;
 
 namespace PokeJuegos.Mobile.ViewModels;
@@ -400,7 +401,8 @@ public partial class RouletteViewModel(
     }
 
     // toLocaleString() on the web: thousands separator of the device's culture.
-    private static string FormatPoints(int points) => $"{points.ToString("N0", CultureInfo.CurrentCulture)} pts";
+    private static string FormatPoints(int points) =>
+        string.Format(AppResources.Roulette_Points, points.ToString("N0", CultureInfo.CurrentCulture));
 
     private CancellationToken RestartRound()
     {

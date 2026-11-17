@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using PokeJuegos.DTO;
 using PokeJuegos.Mobile.Models;
+using PokeJuegos.Mobile.Resources.Strings;
 using PokeJuegos.Mobile.Services;
 
 namespace PokeJuegos.Mobile.ViewModels;
@@ -107,7 +108,7 @@ public partial class RegisterViewModel(IAuthService authService, INavigationServ
 		UsernameError = AuthValidation.Username(Username);
 		EmailError = AuthValidation.Email(Email);
 		PasswordError = AuthValidation.Password(Password);
-		ConfirmPasswordError = ConfirmPassword == Password ? string.Empty : "Passwords don't match.";
+		ConfirmPasswordError = ConfirmPassword == Password ? string.Empty : AppResources.Register_PasswordsDontMatch;
 
 		return NameError.Length == 0
 			&& UsernameError.Length == 0
@@ -130,12 +131,12 @@ public partial class RegisterViewModel(IAuthService authService, INavigationServ
 			}
 		}
 
-		switch (result.Error)
+		switch (result.ErrorCode)
 		{
 			case null: break;
-			case AuthValidation.EmailAlreadyRegistered: EmailError = result.Error; break;
-			case AuthValidation.UsernameAlreadyRegistered: UsernameError = result.Error; break;
-			default: ErrorMessage = result.Error; break;
+			case ErrorText.EmailAlreadyRegistered: EmailError = result.Error!; break;
+			case ErrorText.UsernameAlreadyTaken: UsernameError = result.Error!; break;
+			default: ErrorMessage = result.Error!; break;
 		}
 	}
 }

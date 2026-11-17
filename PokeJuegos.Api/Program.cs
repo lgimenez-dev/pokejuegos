@@ -13,6 +13,7 @@ builder.Services.AddJwtBearerAuth(builder.Configuration);
 builder.Services.AddGoogleAuth(builder.Configuration);
 builder.Services.AddAuthorization();
 builder.Services.AddDefaultCors();
+builder.Services.AddDefaultRequestLocalization();
 builder.Services.AddRateLimiter(options =>
 {
     // The default rejection is 503; clients expect 429 to show "too many attempts".
@@ -53,6 +54,7 @@ else
     app.UseHttpsRedirection();
 }
 
+app.UseRequestLocalization();
 app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();

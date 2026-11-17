@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using PokeJuegos.Mobile.Models;
+using PokeJuegos.Mobile.Resources.Strings;
 using PokeJuegos.Mobile.Services;
 
 namespace PokeJuegos.Mobile.ViewModels;
@@ -16,8 +17,9 @@ public partial class PokedexViewModel(
     INavigationService navigation,
     ILogger<PokedexViewModel> logger) : ObservableObject
 {
-    private const string NoResultsMessage = "You look lost on your journey!";
-    private const string DataErrorMessage = "Failed to load data.";
+    private static string NoResultsMessage => AppResources.Pokedex_NoResults;
+
+    private static string DataErrorMessage => AppResources.Pokedex_DataError;
 
     private IReadOnlyList<PokemonItem> allPokemon = [];
 
@@ -186,7 +188,7 @@ public partial class PokedexViewModel(
         {
             // Same text the web version copied to the clipboard.
             Title = pokemon.Title,
-            Text = $"name: {pokemon.Name}, weight: {detail.Weight}, height: {detail.Height}, types: {detail.Types.Replace(",", string.Empty)}",
+            Text = string.Format(AppResources.Pokedex_ShareText, pokemon.Name, detail.Weight, detail.Height, detail.Types.Replace(",", string.Empty)),
         });
     }
 

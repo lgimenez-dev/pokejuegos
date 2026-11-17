@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:strings="clr-namespace:PokeJuegos.Mobile.Resources.Strings"
              xmlns:vm="clr-namespace:PokeJuegos.Mobile.ViewModels"
              xmlns:controls="clr-namespace:PokeJuegos.Mobile.Controls"
              x:Class="PokeJuegos.Mobile.Views.RegisterPage"
@@ -16,33 +17,33 @@
                                  WidthRequest="315"
                                  VerticalOptions="Center">
 
-                <Label Text="Create your account"
+                <Label Text="{x:Static strings:AppResources.Register_Title}"
                        Style="{StaticResource SubtitleLabel}"
                        SemanticProperties.HeadingLevel="Level1" />
 
                 <VerticalStackLayout Spacing="20">
                     <controls:FormEntry Text="{Binding Name}"
                                         ErrorText="{Binding NameError}"
-                                        Placeholder="Name"
+                                        Placeholder="{x:Static strings:AppResources.Common_Name}"
                                         Keyboard="Text"
                                         ReturnType="Next" />
                     <controls:FormEntry Text="{Binding Username}"
                                         ErrorText="{Binding UsernameError}"
-                                        Placeholder="Username"
+                                        Placeholder="{x:Static strings:AppResources.Common_Username}"
                                         ReturnType="Next" />
                     <controls:FormEntry Text="{Binding Email}"
                                         ErrorText="{Binding EmailError}"
-                                        Placeholder="Email"
+                                        Placeholder="{x:Static strings:AppResources.Common_Email}"
                                         Keyboard="Email"
                                         ReturnType="Next" />
                     <controls:FormEntry Text="{Binding Password}"
                                         ErrorText="{Binding PasswordError}"
-                                        Placeholder="Password"
+                                        Placeholder="{x:Static strings:AppResources.Common_Password}"
                                         IsPassword="True"
                                         ReturnType="Next" />
                     <controls:FormEntry Text="{Binding ConfirmPassword}"
                                         ErrorText="{Binding ConfirmPasswordError}"
-                                        Placeholder="Confirm password"
+                                        Placeholder="{x:Static strings:AppResources.Common_ConfirmPassword}"
                                         IsPassword="True"
                                         ReturnType="Done" />
                     <Label Text="{Binding ErrorMessage}"
@@ -52,13 +53,13 @@
 
                 <Grid ColumnDefinitions="*,*" ColumnSpacing="15">
                     <Button Grid.Column="0"
-                            Text="Back"
+                            Text="{x:Static strings:AppResources.Common_Back}"
                             Style="{StaticResource OutlineButton}"
                             HeightRequest="44"
                             Padding="0"
                             Command="{Binding BackToLoginCommand}" />
                     <Button Grid.Column="1"
-                            Text="Register"
+                            Text="{x:Static strings:AppResources.Common_Register}"
                             Style="{StaticResource PrimaryButton}"
                             HeightRequest="44"
                             Padding="0"
@@ -72,14 +73,14 @@
         </ScrollView>
 
         <!-- The account stays pending until it's activated from the emailed link. -->
-        <controls:ModalView Title="Check your email"
+        <controls:ModalView Title="{x:Static strings:AppResources.Common_CheckYourEmail}"
                             IsOpen="{Binding IsSuccessOpen}"
                             CloseCommand="{Binding CloseSuccessCommand}">
             <VerticalStackLayout Spacing="20">
-                <Label Text="We sent you a link to activate your account. Open it, then log in."
+                <Label Text="{x:Static strings:AppResources.Register_SuccessMessage}"
                        Style="{StaticResource BodyLabel}"
                        HorizontalTextAlignment="Center" />
-                <Button Text="OK"
+                <Button Text="{x:Static strings:AppResources.Common_Ok}"
                         Style="{StaticResource PrimaryButton}"
                         HeightRequest="44"
                         Command="{Binding CloseSuccessCommand}" />

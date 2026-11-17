@@ -14,4 +14,5 @@ public static class Routes
 	public const string CompleteProfile = "complete-profile";
 	public const string Pokedex = "pokedex";
 	public const string Roulette = "roulette";
+	public const string Settings = "settings";
 }

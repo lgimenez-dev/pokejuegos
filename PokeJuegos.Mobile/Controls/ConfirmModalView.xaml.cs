@@ -1,4 +1,5 @@
 using System.Windows.Input;
+using PokeJuegos.Mobile.Resources.Strings;
 
 namespace PokeJuegos.Mobile.Controls;
 
@@ -18,10 +19,12 @@ public partial class ConfirmModalView : ContentView
 		BindableProperty.Create(nameof(IsOpen), typeof(bool), typeof(ConfirmModalView), false);
 
 	public static readonly BindableProperty ConfirmLabelProperty =
-		BindableProperty.Create(nameof(ConfirmLabel), typeof(string), typeof(ConfirmModalView), "Yes");
+		BindableProperty.Create(nameof(ConfirmLabel), typeof(string), typeof(ConfirmModalView), string.Empty,
+			defaultValueCreator: _ => AppResources.Common_Yes);
 
 	public static readonly BindableProperty CancelLabelProperty =
-		BindableProperty.Create(nameof(CancelLabel), typeof(string), typeof(ConfirmModalView), "No");
+		BindableProperty.Create(nameof(CancelLabel), typeof(string), typeof(ConfirmModalView), string.Empty,
+			defaultValueCreator: _ => AppResources.Common_No);
 
 	/// <summary>Replaces the <c>confirm</c> event of the Vue component.</summary>
 	public static readonly BindableProperty ConfirmCommandProperty =
